@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace zzLibrary
 {
@@ -10,6 +11,8 @@ namespace zzLibrary
         public static void Register(HttpConfiguration config)
         {
             // Web API 配置和服务
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             config.Formatters.Remove(config.Formatters.XmlFormatter);

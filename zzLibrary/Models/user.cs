@@ -18,6 +18,8 @@ namespace zzLibrary.Models
         public user()
         {
             this.record = new HashSet<record>();
+            this.token = String.Empty;
+            this.duration = 30;
         }
     
         public string user1 { get; set; }

@@ -10,13 +10,12 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using zzLibrary.Models;
+using zzLibrary.DAOs;
 
 namespace zzLibrary.Controllers
 {
     public class AccountController : ApiController
     {
-        zzLibraryEntities db = new zzLibraryEntities();
-
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -33,42 +32,24 @@ namespace zzLibrary.Controllers
         [ActionName("login")]
         public Object Login([FromBody]AccountMsg value)
         {
-            try
+            var userDAO = new BaseDAO<user>();
+            user _user = userDAO.Get(value.Username);
+            if (_user.password == value.Password)
             {
-                user _user = db.user.Find(value.Username);
-                if (_user.password == value.Password)
+                string token = value.Username + value.Password;
+                byte[] bytes = Encoding.UTF8.GetBytes(token);
+                SHA256Managed hasher = new SHA256Managed();
+                bytes = hasher.ComputeHash(bytes);
+                string hashString = string.Empty;
+                foreach (byte x in bytes)
                 {
-                    string token = value.Username + value.Password;
-                    byte[] bytes = Encoding.UTF8.GetBytes(token);
-                    SHA256Managed hasher = new SHA256Managed();
-                    bytes = hasher.ComputeHash(bytes);
-                    string hashString = string.Empty;
-                    foreach (byte x in bytes)
-                    {
-                        hashString += String.Format("{0:x2}", x);
-                    }
-                    _user.token = hashString;
-                    db.SaveChanges();
-                    return new { token = hashString };
+                    hashString += String.Format("{0:x2}", x);
                 }
-                else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                _user.token = hashString;
+                userDAO.Update(_user, _user.user1);
+                return new { token = hashString };
             }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var validationErrors in e.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                validationError.PropertyName,
-                                                validationError.ErrorMessage);
-                    }
-                }
-            }
-            catch (DataException)
-            {
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            }
+            else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             return true;
         }
 
@@ -82,31 +63,14 @@ namespace zzLibrary.Controllers
                 password = info.Password,
                 isadmin = (info.Admincode == "rootAdmin")
             };
-            try
+            var result = new BaseDAO<user>().Add(newUser);
+            if (result == null)
             {
-                db.user.Add(newUser);
-                db.SaveChanges();
+                var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+                resp.Content = new StringContent("Username existed.");
+                return resp;
             }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var validationErrors in e.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                validationError.PropertyName,
-                                                validationError.ErrorMessage);
-                    }
-                }
-            }
-            catch (DataException e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.Source);
-                return new HttpResponseMessage(HttpStatusCode.NotImplemented);
-            }
-
-            return true;
+            else return result;
         }
 
         // POST api/<controller>
@@ -131,12 +95,5 @@ namespace zzLibrary.Controllers
             public string Password { get; set; }
             public string Admincode { get; set; }
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
-
     }
 }
