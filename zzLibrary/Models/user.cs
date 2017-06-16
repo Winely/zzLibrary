@@ -24,6 +24,7 @@ namespace zzLibrary.Models
         public string password { get; set; }
         public bool isadmin { get; set; }
         public int duration { get; set; }
+        public string token { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<record> record { get; set; }

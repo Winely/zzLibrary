@@ -14,16 +14,16 @@ using System.Web;
 using System.Web.Mvc;
 namespace zzLibrary.Controllers
 {
-	public class RecordController:Controller
+	public class CopyController:Controller
 	{
 	   private zzLibrary.Models.zzLibraryEntities db = new zzLibrary.Models.zzLibraryEntities();
 	   
 	     //
-        // GET: /record/
+        // GET: /copy/
 
         public ActionResult Index()
         {
-            return View(db.record.ToList());
+            return View(db.copy.ToList());
         }
 
         protected override void Dispose(bool disposing)

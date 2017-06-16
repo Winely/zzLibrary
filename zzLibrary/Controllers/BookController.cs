@@ -7,14 +7,6 @@
 // out of or in connection with the software or the use or other dealings in the software.
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-
-
-
-
-
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +16,7 @@ namespace zzLibrary.Controllers
 {
 	public class BookController:Controller
 	{
-	   private zzLibrary.Models.myLibraryEntities db = new zzLibrary.Models.myLibraryEntities();
+	   private zzLibrary.Models.zzLibraryEntities db = new zzLibrary.Models.zzLibraryEntities();
 	   
 	     //
         // GET: /book/

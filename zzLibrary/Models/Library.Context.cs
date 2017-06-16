@@ -13,10 +13,10 @@ namespace zzLibrary.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class myLibraryEntities : DbContext
+    public partial class zzLibraryEntities : DbContext
     {
-        public myLibraryEntities()
-            : base("name=myLibraryEntities")
+        public zzLibraryEntities()
+            : base("name=zzLibraryEntities")
         {
         }
     

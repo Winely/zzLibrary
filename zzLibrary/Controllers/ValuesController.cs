@@ -16,9 +16,9 @@ namespace zzLibrary.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public Object Get(int id)
         {
-            return "value";
+            return new { a=123, b=456 };
         }
 
         // POST api/values

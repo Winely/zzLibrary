@@ -16,7 +16,7 @@ namespace zzLibrary.Controllers
 {
 	public class UserController:Controller
 	{
-	   private zzLibrary.Models.myLibraryEntities db = new zzLibrary.Models.myLibraryEntities();
+	   private zzLibrary.Models.zzLibraryEntities db = new zzLibrary.Models.zzLibraryEntities();
 	   
 	     //
         // GET: /user/

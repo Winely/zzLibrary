@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d150e82385044e17a034ce7be9fd2b0b" Name="Diagram1">
-        <EntityTypeShape EntityType="myLibraryModel.book" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="myLibraryModel.copy" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="myLibraryModel.record" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="myLibraryModel.user" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <AssociationConnector Association="myLibraryModel.fk_copy__book" ManuallyRouted="false" />
-        <AssociationConnector Association="myLibraryModel.fk_record__copy" ManuallyRouted="false" />
-        <AssociationConnector Association="myLibraryModel.fk_record__user" ManuallyRouted="false" />
+      <Diagram DiagramId="5f81844a4ba143bd8e9d40431dba62b8" Name="Diagram1">
+        <EntityTypeShape EntityType="zzLibraryModel.book" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="zzLibraryModel.copy" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="zzLibraryModel.record" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="zzLibraryModel.user" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <AssociationConnector Association="zzLibraryModel.fk_copy__book" ManuallyRouted="false" />
+        <AssociationConnector Association="zzLibraryModel.fk_record__copy" ManuallyRouted="false" />
+        <AssociationConnector Association="zzLibraryModel.fk_record__user" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
