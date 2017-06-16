@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="zzLibraryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="zzLibrary.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="book">
           <Key>
             <PropertyRef Name="isbn" />
@@ -42,7 +42,7 @@
           <Property Name="password" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="isadmin" Type="bool" Nullable="false" />
           <Property Name="duration" Type="int" Nullable="false" />
-          <Property Name="token" Type="varchar" MaxLength="32" Nullable="false" />
+          <Property Name="token" Type="varchar" MaxLength="64" Nullable="false" />
         </EntityType>
         <Association Name="fk_copy__book">
           <End Role="book" Type="Self.book" Multiplicity="1" />
@@ -80,7 +80,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="zzLibraryModelStoreContainer">
+        <EntityContainer Name="zzLibraryStoreContainer">
           <EntitySet Name="book" EntityType="Self.book" Schema="myLibrary" store:Type="Tables" />
           <EntitySet Name="copy" EntityType="Self.copy" Schema="myLibrary" store:Type="Tables" />
           <EntitySet Name="record" EntityType="Self.record" Schema="myLibrary" store:Type="Tables" />
@@ -102,7 +102,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="zzLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="zzLibrary" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="book">
           <Key>
             <PropertyRef Name="isbn" />
@@ -145,7 +145,7 @@
           <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="isadmin" Type="Boolean" Nullable="false" />
           <Property Name="duration" Type="Int32" Nullable="false" />
-          <Property Name="token" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="token" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="record" Relationship="Self.fk_record__user" FromRole="user" ToRole="record" />
         </EntityType>
         <Association Name="fk_copy__book">
@@ -207,9 +207,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="zzLibraryModelStoreContainer" CdmEntityContainer="zzLibraryEntities">
+        <EntityContainerMapping StorageEntityContainer="zzLibraryStoreContainer" CdmEntityContainer="zzLibraryEntities">
           <EntitySetMapping Name="book">
-            <EntityTypeMapping TypeName="zzLibraryModel.book">
+            <EntityTypeMapping TypeName="zzLibrary.book">
               <MappingFragment StoreEntitySet="book">
                 <ScalarProperty Name="isbn" ColumnName="isbn" />
                 <ScalarProperty Name="title" ColumnName="title" />
@@ -220,7 +220,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="copy">
-            <EntityTypeMapping TypeName="zzLibraryModel.copy">
+            <EntityTypeMapping TypeName="zzLibrary.copy">
               <MappingFragment StoreEntitySet="copy">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="book" ColumnName="book" />
@@ -228,7 +228,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="record">
-            <EntityTypeMapping TypeName="zzLibraryModel.record">
+            <EntityTypeMapping TypeName="zzLibrary.record">
               <MappingFragment StoreEntitySet="record">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user" ColumnName="user" />
@@ -241,7 +241,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user">
-            <EntityTypeMapping TypeName="zzLibraryModel.user">
+            <EntityTypeMapping TypeName="zzLibrary.user">
               <MappingFragment StoreEntitySet="user">
                 <ScalarProperty Name="user1" ColumnName="user" />
                 <ScalarProperty Name="password" ColumnName="password" />
