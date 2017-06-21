@@ -98,7 +98,7 @@ namespace zzLibrary.Controllers
                 resp.Content = new StringContent("Username existed.");
                 return resp;
             }
-            else return result;
+            else return new { user=result.user1, duration=result.duration, isadmin=result.isadmin};
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace zzLibrary.Controllers
         }
 
         /// <summary>
-        /// 登录/注册用的各种信息
+        /// 注册用的各种信息
         /// </summary>
         public class AccountMsg
         {

@@ -66,11 +66,14 @@ namespace zzLibrary.Controllers
         [ActionName("borrow")]
         public Object Borrow([FromBody]BorrowMsg body)
         {
+            // validate authorization
             var usrdao = new UserDAO();
+            var recorddao = new RecordDAO();
             var opt = usrdao.GetByToken(body.token);
             if (opt == null || !opt.isadmin)
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
 
+            // validate user
             var usr = usrdao.Get(body.username);
             if (usr == null)
             {
@@ -78,8 +81,17 @@ namespace zzLibrary.Controllers
                 resp.Content = new StringContent("User not existed.");
                 return resp;
             }
+            
+            // validate resp
+            var copy = new CopyDAO().Get(body.copy);
+            if (copy.status != 0)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+                resp.Content = new StringContent("The copy is borrowed or missed.");
+                return resp;
+            }
 
-            var rec = new RecordDAO().Add(new record
+            var rec = recorddao.Add(new record
             {
                 copy = body.copy,
                 user = usr.user1,
@@ -90,7 +102,11 @@ namespace zzLibrary.Controllers
             });
 
             if (rec == null)
-                return new HttpResponseMessage(HttpStatusCode.NotImplemented);
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+                resp.Content = new StringContent("Copy not existed");
+                return resp;
+            }
 
             return new
             {

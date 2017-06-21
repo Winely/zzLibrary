@@ -513,7 +513,7 @@
         </member>
         <member name="T:zzLibrary.Controllers.AccountController.AccountMsg">
             <summary>
-            登录/注册用的各种信息
+            注册用的各种信息
             </summary>
         </member>
         <member name="P:zzLibrary.Controllers.AccountController.AccountMsg.Username">
@@ -611,6 +611,26 @@
             借书，仅管理员有权
             </summary>
             <returns>操作信息</returns>
+        </member>
+        <member name="T:zzLibrary.Controllers.RecordController.BorrowMsg">
+            <summary>
+            借书提交信息
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.token">
+            <summary>
+            操作人token
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.username">
+            <summary>
+            借书人用户名
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.copy">
+            <summary>
+            复本id
+            </summary>
         </member>
     </members>
 </doc>
