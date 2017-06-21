@@ -21,7 +21,8 @@ namespace zzLibrary.Models
         }
     
         public int id { get; set; }
-        public int book { get; set; }
+        public string book { get; set; }
+        public sbyte status { get; set; }
     
         public virtual book book1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

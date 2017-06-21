@@ -19,7 +19,7 @@ namespace zzLibrary.Models
         public int copy { get; set; }
         public System.DateTime borrow_time { get; set; }
         public System.DateTime deadline { get; set; }
-        public int renew { get; set; }
+        public sbyte renew { get; set; }
         public bool isclosed { get; set; }
     
         public virtual copy copy1 { get; set; }

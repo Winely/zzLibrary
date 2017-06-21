@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 using System.Data;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
@@ -14,27 +15,44 @@ using zzLibrary.DAOs;
 
 namespace zzLibrary.Controllers
 {
+    /// <summary>
+    /// 账号用户管理系统
+    /// </summary>
     public class AccountController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        /// <summary>
+        /// 全系统用户信息（管理员可见）
+        /// </summary>
+        /// <param name="token">管理员token</param>
+        /// <returns>一张列表</returns>
+        public Object Get(string token)
         {
-            return new string[] { "value1", "value2" };
+            var userdao = new UserDAO();
+            var usr = userdao.GetByToken(token);
+            if(usr!=null && usr.isadmin)
+            {
+                return userdao.GetAll();
+            }
+            else
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                resp.Content = new StringContent("Please log in as Admin.");
+                return resp;
+            }
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <returns>用户信息</returns>
         [HttpPost]
         [ActionName("login")]
+        
         public Object Login([FromBody]AccountMsg value)
         {
-            var userDAO = new BaseDAO<user>();
-            user _user = userDAO.Get(value.Username);
-            if (_user.password == value.Password)
+            var userDAO = new UserDAO();
+            user usr = userDAO.Get(value.Username);
+            if (usr!=null && usr.password == value.Password)
             {
                 string token = value.Username + value.Password;
                 byte[] bytes = Encoding.UTF8.GetBytes(token);
@@ -45,14 +63,17 @@ namespace zzLibrary.Controllers
                 {
                     hashString += String.Format("{0:x2}", x);
                 }
-                _user.token = hashString;
-                userDAO.Update(_user, _user.user1);
-                return new { token = hashString };
+                usr.token = hashString;
+                userDAO.Update(usr, usr.user1);
+                return usr;
             }
             else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
-            return true;
         }
 
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <returns>注册成功的用户信息</returns>
         [HttpPost]
         [ActionName("signup")]
         public Object Signup([FromBody]AccountMsg info)
@@ -63,7 +84,7 @@ namespace zzLibrary.Controllers
                 password = info.Password,
                 isadmin = (info.Admincode == "rootAdmin")
             };
-            var result = new BaseDAO<user>().Add(newUser);
+            var result = new UserDAO().Add(newUser);
             if (result == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
@@ -73,26 +94,42 @@ namespace zzLibrary.Controllers
             else return result;
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        /// <summary>
+        /// 验证用户token
+        /// </summary>
+        /// <returns>有效则返回用户信息</returns>
+        [HttpGet]
+        [ActionName("validate")]
+        public Object Validate(string token)
         {
-
+            var usr = new UserDAO().GetByToken(token);
+            if (usr != null) return usr;
+            else
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.NotFound);
+                resp.Content = new StringContent("User unfound");
+                return resp;
+            }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
-
+        /// <summary>
+        /// 登录/注册用的各种信息
+        /// </summary>
         public class AccountMsg
         {
+            /// <summary>
+            /// 用户名
+            /// </summary>
             public string Username { get; set; }
+
+            /// <summary>
+            /// 密码
+            /// </summary>
             public string Password { get; set; }
+
+            /// <summary>
+            /// 成为管理员所需要的神秘代码
+            /// </summary>
             public string Admincode { get; set; }
         }
     }

@@ -15,13 +15,18 @@ namespace zzLibrary.DAOs
 {
     public class BaseDAO<TObject> where TObject : class
     {
-        protected zzLibraryEntities db = new zzLibraryEntities();
-        
+        public zzLibraryEntities db { get; set; }
+
+        public BaseDAO()
+        {
+            db = new zzLibraryEntities();
+        }
+
         ~BaseDAO()
         {
             db.Dispose();
         }
-
+        
         public ICollection<TObject> GetAll()
         {
             return db.Set<TObject>().ToList();

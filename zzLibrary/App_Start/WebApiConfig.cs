@@ -23,7 +23,7 @@ namespace zzLibrary
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { controller="Account", action="Get" }
             );
         }
     }

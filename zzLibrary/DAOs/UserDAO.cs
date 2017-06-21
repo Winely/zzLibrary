@@ -8,5 +8,9 @@ namespace zzLibrary.DAOs
 {
     public class UserDAO : BaseDAO<user>
     {
+        public user GetByToken(string token)
+        {
+            return Find(u => u.token == token);
+        }
     }
 }

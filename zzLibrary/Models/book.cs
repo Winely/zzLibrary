@@ -20,10 +20,10 @@ namespace zzLibrary.Models
             this.copy = new HashSet<copy>();
         }
     
-        public int isbn { get; set; }
+        public string isbn { get; set; }
         public string title { get; set; }
         public string author { get; set; }
-        public Nullable<double> price { get; set; }
+        public string price { get; set; }
         public string edition { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

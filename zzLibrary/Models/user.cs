@@ -18,14 +18,12 @@ namespace zzLibrary.Models
         public user()
         {
             this.record = new HashSet<record>();
-            this.token = String.Empty;
-            this.duration = 30;
         }
     
         public string user1 { get; set; }
         public string password { get; set; }
+        public sbyte duration { get; set; }
         public bool isadmin { get; set; }
-        public int duration { get; set; }
         public string token { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
