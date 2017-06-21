@@ -84,7 +84,14 @@ namespace zzLibrary.Controllers
                 if (bookInfo.author == null) bookInfo.author = "";
                 var bk = new BookDAO().Add(bookInfo);
                 if (bk == null) return new HttpResponseMessage(HttpStatusCode.NotImplemented);
-                else return bk;
+                else return new
+                {
+                    title = bk.title,
+                    author = bk.author,
+                    edition = bk.edition,
+                    price = bk.price,
+                    isbn = bk.isbn
+                };
             }
             else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
