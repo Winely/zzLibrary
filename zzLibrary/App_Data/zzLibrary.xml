@@ -511,6 +511,13 @@
             </summary>
             <returns>有效则返回用户信息</returns>
         </member>
+        <member name="M:zzLibrary.Controllers.AccountController.Info(System.String,System.String)">
+            <summary>
+            获取用户借书相关信息，仅本人或管理员可见
+            </summary>
+            <param name="token">用户的token</param>
+            <returns></returns>
+        </member>
         <member name="T:zzLibrary.Controllers.AccountController.AccountMsg">
             <summary>
             注册用的各种信息
@@ -568,6 +575,14 @@
             <param name="isbn">被删的书本isbn</param>
             <returns>状态信息</returns>
         </member>
+        <member name="M:zzLibrary.Controllers.BookController.Search(System.String,System.Int32)">
+            <summary>
+            搜索书目，每页20条结果
+            </summary>
+            <param name="title">书本标题</param>
+            <param name="page">结果页码</param>
+            <returns></returns>
+        </member>
         <member name="M:zzLibrary.Controllers.CopyController.Get(System.String)">
             <summary>
             获取某本书的copy列表
@@ -590,6 +605,14 @@
             <param name="token">管理员token</param>
             <param name="id">复本id</param>
         </member>
+        <member name="M:zzLibrary.Controllers.RecordController.GetAll(System.String,System.Int32)">
+            <summary>
+            获取所有record，按时间排序，一页40条，仅管理员
+            </summary>
+            <param name="token">管理员token</param>
+            <param name="page">页码</param>
+            <returns>total为总页数；records为记录列表</returns>
+        </member>
         <member name="M:zzLibrary.Controllers.RecordController.UserRecord(System.String,System.String)">
             <summary>
             查询某一用户的借阅记录，仅本人或管理员可见。
@@ -606,20 +629,30 @@
             <param name="copyId">副本id</param>
             <returns>相关记录列表</returns>
         </member>
-        <member name="M:zzLibrary.Controllers.RecordController.Borrow(zzLibrary.Controllers.RecordController.BorrowMsg)">
+        <member name="M:zzLibrary.Controllers.RecordController.Borrow(System.String,zzLibrary.Controllers.RecordController.BorrowMsg)">
             <summary>
             借书，仅管理员有权
             </summary>
+            <param name="token">管理员token</param>
             <returns>操作信息</returns>
+        </member>
+        <member name="M:zzLibrary.Controllers.RecordController.Return(System.String,zzLibrary.Controllers.RecordController.BorrowMsg)">
+            <summary>
+            还书，仅管理员
+            </summary>
+            <param name="token">管理员token</param>
+            <returns>返回过期时间（为负则没有过期）</returns>
+        </member>
+        <member name="M:zzLibrary.Controllers.RecordController.Renew(System.String,zzLibrary.Controllers.RecordController.BorrowMsg)">
+            <summary>
+            续借书本，仅限本人或管理员
+            </summary>
+            <param name="token">用户token</param>
+            <returns></returns>
         </member>
         <member name="T:zzLibrary.Controllers.RecordController.BorrowMsg">
             <summary>
-            借书提交信息
-            </summary>
-        </member>
-        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.token">
-            <summary>
-            操作人token
+            借还书提交信息
             </summary>
         </member>
         <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.username">

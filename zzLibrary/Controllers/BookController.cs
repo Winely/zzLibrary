@@ -98,5 +98,39 @@ namespace zzLibrary.Controllers
             }
             return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
+
+        /// <summary>
+        /// 搜索书目，每页20条结果
+        /// </summary>
+        /// <param name="title">书本标题</param>
+        /// <param name="page">结果页码</param>
+        /// <returns></returns>
+        [HttpGet]
+        [ActionName("search")]
+        public Object Search(string title, int page)
+        {
+            var bookdao = new BookDAO();
+            var len = bookdao.FindAll(x => x.title.Contains(title)).Count();
+            var pageSize = 20; //每页长度
+            var totalPage = (len + pageSize - 1) / pageSize;
+            int startRow = (page - 1) * pageSize;
+            var books = bookdao.FindAll(x => x.title.Contains(title))
+                .OrderBy(x => x.title)
+                .Skip(startRow).Take(pageSize)
+                .Select(x => new
+                {
+                    title = x.title,
+                    author = x.author,
+                    edition = x.edition,
+                    isbn = x.isbn,
+                    price = x.price
+                })
+                .ToList();
+            return new
+            {
+                total = totalPage,
+                books = books
+            };
+        }
     }
 }
