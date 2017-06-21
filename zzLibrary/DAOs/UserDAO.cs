@@ -10,7 +10,7 @@ namespace zzLibrary.DAOs
     {
         public user GetByToken(string token)
         {
-            return Find(u => u.token == token);
+            return Find(u=>u.token==token);
         }
     }
 }

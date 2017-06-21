@@ -22,7 +22,7 @@ namespace zzLibrary.Controllers
         /// </summary>
         /// <param name="token">用户token</param>
         /// <param name="user">被查询用户名</param>
-        /// <returns></returns>
+        /// <returns>相关记录列表</returns>
         [HttpGet]
         [ActionName("user")]
         public Object UserRecord(string token, string user)
@@ -43,7 +43,7 @@ namespace zzLibrary.Controllers
         /// </summary>
         /// <param name="token">管理员token</param>
         /// <param name="copyId">副本id</param>
-        /// <returns></returns>
+        /// <returns>相关记录列表</returns>
         [HttpGet]
         [ActionName("copy")]
         public Object CopyRecord(string token, int copyId)
@@ -51,32 +51,64 @@ namespace zzLibrary.Controllers
             var usr = new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
-                return new RecordDAO().GetByID(copyId);
+                var records = new RecordDAO().GetByID(copyId);
+                return records.ConvertAll(x => new
+                {
+
+                });
             }
             else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
 
+        /// <summary>
+        /// 借书，仅管理员有权
+        /// </summary>
+        /// <returns>操作信息</returns>
         [HttpPost]
         [ActionName("borrow")]
-        public void Post(string token, [FromBody]string values)
+        public Object Borrow([FromBody]BorrowMsg body)
         {
+            var usrdao = new UserDAO();
+            var opt = usrdao.GetByToken(body.token);
+            if (opt == null || !opt.isadmin)
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+
+            var usr = usrdao.Get(body.username);
+            if (usr == null)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+                resp.Content = new StringContent("User not existed.");
+                return resp;
+            }
+
+            var rec = new RecordDAO().Add(new record
+            {
+                copy = body.copy,
+                user = usr.user1,
+                borrow_time = DateTime.Now,
+                deadline = DateTime.Now.AddDays(usr.duration),
+                @operator = opt.user1
+            });
+
+            if (rec == null)
+                return new HttpResponseMessage(HttpStatusCode.NotImplemented);
+
+            return new
+            {
+                id = rec.id,
+                copy = rec.copy,
+                user = rec.user,
+                borrow_time = rec.borrow_time,
+                deadline = rec.deadline,
+                @operator = rec.@operator
+            };
 
         }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public class BorrowMsg
         {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
-
-        class BorrowMsg
-        {
-            public string username;
-            public int copy;
+            public string token { get; set; }
+            public string username { get; set; }
+            public int copy { get; set; }
         }
     }
 }

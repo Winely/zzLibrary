@@ -590,5 +590,27 @@
             <param name="token">管理员token</param>
             <param name="id">复本id</param>
         </member>
+        <member name="M:zzLibrary.Controllers.RecordController.UserRecord(System.String,System.String)">
+            <summary>
+            查询某一用户的借阅记录，仅本人或管理员可见。
+            </summary>
+            <param name="token">用户token</param>
+            <param name="user">被查询用户名</param>
+            <returns>相关记录列表</returns>
+        </member>
+        <member name="M:zzLibrary.Controllers.RecordController.CopyRecord(System.String,System.Int32)">
+            <summary>
+            获取某本副本的借阅记录，仅管理员可见
+            </summary>
+            <param name="token">管理员token</param>
+            <param name="copyId">副本id</param>
+            <returns>相关记录列表</returns>
+        </member>
+        <member name="M:zzLibrary.Controllers.RecordController.Borrow(zzLibrary.Controllers.RecordController.BorrowMsg)">
+            <summary>
+            借书，仅管理员有权
+            </summary>
+            <returns>操作信息</returns>
+        </member>
     </members>
 </doc>

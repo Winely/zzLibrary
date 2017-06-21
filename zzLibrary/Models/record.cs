@@ -21,8 +21,10 @@ namespace zzLibrary.Models
         public System.DateTime deadline { get; set; }
         public sbyte renew { get; set; }
         public bool isclosed { get; set; }
+        public string @operator { get; set; }
     
         public virtual copy copy1 { get; set; }
         public virtual user user1 { get; set; }
+        public virtual user user2 { get; set; }
     }
 }

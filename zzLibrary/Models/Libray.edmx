@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="zzLibraryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="zzLibraryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="book">
           <Key>
             <PropertyRef Name="isbn" />
@@ -30,10 +30,11 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="user" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="copy" Type="int" Nullable="false" />
-          <Property Name="borrow_time" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="borrow_time" Type="datetime" Precision="0" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="deadline" Type="datetime" Precision="0" Nullable="false" />
           <Property Name="renew" Type="tinyint" Nullable="false" />
           <Property Name="isclosed" Type="bool" Nullable="false" />
+          <Property Name="operator" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -69,6 +70,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_record__operator">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="operator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_record__user">
           <End Role="user" Type="Self.user" Multiplicity="1" />
           <End Role="record" Type="Self.record" Multiplicity="*" />
@@ -94,12 +107,17 @@
             <End Role="copy" EntitySet="copy" />
             <End Role="record" EntitySet="record" />
           </AssociationSet>
+          <AssociationSet Name="fk_record__operator" Association="Self.fk_record__operator">
+            <End Role="user" EntitySet="user" />
+            <End Role="record" EntitySet="record" />
+          </AssociationSet>
           <AssociationSet Name="fk_record__user" Association="Self.fk_record__user">
             <End Role="user" EntitySet="user" />
             <End Role="record" EntitySet="record" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="zzLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -120,9 +138,9 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="book" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="SByte" Nullable="false" />
           <NavigationProperty Name="book1" Relationship="Self.fk_copy__book" FromRole="copy" ToRole="book" />
           <NavigationProperty Name="record" Relationship="Self.fk_record__copy" FromRole="copy" ToRole="record" />
-          <Property Name="status" Type="SByte" Nullable="false" />
         </EntityType>
         <EntityType Name="record">
           <Key>
@@ -131,12 +149,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="user" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="copy" Type="Int32" Nullable="false" />
-          <Property Name="borrow_time" Type="DateTime" Nullable="false" />
+          <Property Name="borrow_time" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="deadline" Type="DateTime" Nullable="false" />
           <Property Name="renew" Type="SByte" Nullable="false" />
           <Property Name="isclosed" Type="Boolean" Nullable="false" />
+          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="copy1" Relationship="Self.fk_record__copy" FromRole="record" ToRole="copy" />
-          <NavigationProperty Name="user1" Relationship="Self.fk_record__user" FromRole="record" ToRole="user" />
+          <NavigationProperty Name="user1" Relationship="Self.fk_record__operator" FromRole="record" ToRole="user" />
+          <NavigationProperty Name="user2" Relationship="Self.fk_record__user" FromRole="record" ToRole="user" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -147,7 +167,8 @@
           <Property Name="duration" Type="SByte" Nullable="false" />
           <Property Name="isadmin" Type="Boolean" Nullable="false" />
           <Property Name="token" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="record" Relationship="Self.fk_record__user" FromRole="user" ToRole="record" />
+          <NavigationProperty Name="record" Relationship="Self.fk_record__operator" FromRole="user" ToRole="record" />
+          <NavigationProperty Name="record1" Relationship="Self.fk_record__user" FromRole="user" ToRole="record" />
         </EntityType>
         <Association Name="fk_copy__book">
           <End Role="book" Type="Self.book" Multiplicity="1" />
@@ -170,6 +191,18 @@
             </Principal>
             <Dependent Role="record">
               <PropertyRef Name="copy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_record__operator">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="record" Type="Self.record" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="user1" />
+            </Principal>
+            <Dependent Role="record">
+              <PropertyRef Name="operator" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -198,6 +231,10 @@
             <End Role="copy" EntitySet="copy" />
             <End Role="record" EntitySet="record" />
           </AssociationSet>
+          <AssociationSet Name="fk_record__operator" Association="Self.fk_record__operator">
+            <End Role="user" EntitySet="user" />
+            <End Role="record" EntitySet="record" />
+          </AssociationSet>
           <AssociationSet Name="fk_record__user" Association="Self.fk_record__user">
             <End Role="user" EntitySet="user" />
             <End Role="record" EntitySet="record" />
@@ -223,9 +260,9 @@
           <EntitySetMapping Name="copy">
             <EntityTypeMapping TypeName="zzLibraryModel.copy">
               <MappingFragment StoreEntitySet="copy">
-                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="book" ColumnName="book" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -239,6 +276,7 @@
                 <ScalarProperty Name="deadline" ColumnName="deadline" />
                 <ScalarProperty Name="renew" ColumnName="renew" />
                 <ScalarProperty Name="isclosed" ColumnName="isclosed" />
+                <ScalarProperty Name="operator" ColumnName="operator" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

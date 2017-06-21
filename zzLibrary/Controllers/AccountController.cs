@@ -65,7 +65,13 @@ namespace zzLibrary.Controllers
                 }
                 usr.token = hashString;
                 userDAO.Update(usr, usr.user1);
-                return usr;
+                return new
+                {
+                    user = usr.user1,
+                    token = usr.token,
+                    isadmin = usr.isadmin,
+                    duration = usr.duration
+                };
             }
             else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
@@ -82,7 +88,8 @@ namespace zzLibrary.Controllers
             {
                 user1 = info.Username,
                 password = info.Password,
-                isadmin = (info.Admincode == "rootAdmin")
+                isadmin = (info.Admincode == "rootAdmin"),
+                duration = 30
             };
             var result = new UserDAO().Add(newUser);
             if (result == null)

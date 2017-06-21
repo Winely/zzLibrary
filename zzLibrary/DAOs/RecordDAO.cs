@@ -15,7 +15,13 @@ namespace zzLibrary.DAOs
 
         public List<record> GetByID(int copyId)
         {
-            return db.record.Where(x => x.copy == copyId).ToList();
+            return db.record
+                            .Where(x => x.copy == copyId)
+                            .Select(x=>new record{
+                                copy=x.copy,
+                                borrow_time=x.borrow_time,
+                            })
+                            .ToList();
         }
     }
 }

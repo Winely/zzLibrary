@@ -56,7 +56,10 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MySql.Data.Entity, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="MySql.Fabric.Plugin, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
@@ -200,8 +203,6 @@
     <Compile Include="Controllers\CopyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAOs\BaseDAO.cs" />
     <Compile Include="DAOs\BookDAO.cs" />
     <Compile Include="DAOs\CopyDAO.cs" />
@@ -211,31 +212,31 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\book.cs">
-      <DependentUpon>Library.tt</DependentUpon>
+      <DependentUpon>Libray.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\copy.cs">
-      <DependentUpon>Library.tt</DependentUpon>
+      <DependentUpon>Libray.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Library.Context.cs">
+    <Compile Include="Models\Libray.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Library.Context.tt</DependentUpon>
+      <DependentUpon>Libray.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Library.cs">
+    <Compile Include="Models\Libray.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Library.tt</DependentUpon>
+      <DependentUpon>Libray.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Library.Designer.cs">
+    <Compile Include="Models\Libray.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Library.edmx</DependentUpon>
+      <DependentUpon>Libray.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\record.cs">
-      <DependentUpon>Library.tt</DependentUpon>
+      <DependentUpon>Libray.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\user.cs">
-      <DependentUpon>Library.tt</DependentUpon>
+      <DependentUpon>Libray.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -246,15 +247,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\Library.Context.tt">
+    <Content Include="Models\Libray.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Library.edmx</DependentUpon>
-      <LastGenOutput>Library.Context.cs</LastGenOutput>
+      <DependentUpon>Libray.edmx</DependentUpon>
+      <LastGenOutput>Libray.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Library.tt">
+    <Content Include="Models\Libray.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Library.edmx</DependentUpon>
-      <LastGenOutput>Library.cs</LastGenOutput>
+      <DependentUpon>Libray.edmx</DependentUpon>
+      <LastGenOutput>Libray.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -280,12 +281,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\Library.edmx">
+    <EntityDeploy Include="Models\Libray.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Library.Designer.cs</LastGenOutput>
+      <LastGenOutput>Libray.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Library.edmx.diagram">
-      <DependentUpon>Library.edmx</DependentUpon>
+    <Content Include="Models\Libray.edmx.diagram">
+      <DependentUpon>Libray.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />

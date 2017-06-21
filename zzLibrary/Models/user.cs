@@ -18,6 +18,7 @@ namespace zzLibrary.Models
         public user()
         {
             this.record = new HashSet<record>();
+            this.record1 = new HashSet<record>();
         }
     
         public string user1 { get; set; }
@@ -28,5 +29,7 @@ namespace zzLibrary.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<record> record { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<record> record1 { get; set; }
     }
 }
