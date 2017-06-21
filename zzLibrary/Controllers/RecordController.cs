@@ -31,7 +31,9 @@ namespace zzLibrary.Controllers
             if (usr != null)
             {
                 if (usr.isadmin || usr.user1 == user)
+                {
                     return new RecordDAO().GetByUser(user);
+                }
                 else
                     return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
@@ -51,11 +53,7 @@ namespace zzLibrary.Controllers
             var usr = new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
-                var records = new RecordDAO().GetByID(copyId);
-                return records.ConvertAll(x => new
-                {
-
-                });
+                return new RecordDAO().GetByID(copyId);
             }
             else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
@@ -87,6 +85,7 @@ namespace zzLibrary.Controllers
                 user = usr.user1,
                 borrow_time = DateTime.Now,
                 deadline = DateTime.Now.AddDays(usr.duration),
+                renew = 2,
                 @operator = opt.user1
             });
 
@@ -104,10 +103,25 @@ namespace zzLibrary.Controllers
             };
 
         }
+
+        /// <summary>
+        /// 借书提交信息
+        /// </summary>
         public class BorrowMsg
         {
+            /// <summary>
+            /// 操作人token
+            /// </summary>
             public string token { get; set; }
+
+            /// <summary>
+            /// 借书人用户名
+            /// </summary>
             public string username { get; set; }
+
+            /// <summary>
+            /// 复本id
+            /// </summary>
             public int copy { get; set; }
         }
     }
