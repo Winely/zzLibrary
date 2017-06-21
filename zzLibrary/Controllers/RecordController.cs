@@ -206,7 +206,7 @@ namespace zzLibrary.Controllers
 
             return new
             {
-                dated = record.deadline.CompareTo(DateTime.Now)
+                dated = record.deadline.Subtract(DateTime.Now).TotalDays
             };
 
         }
