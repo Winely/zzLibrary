@@ -110,7 +110,13 @@ namespace zzLibrary.Controllers
         public Object Validate(string token)
         {
             var usr = new UserDAO().GetByToken(token);
-            if (usr != null) return usr;
+            if (usr != null) return new
+            {
+                user = usr.user1,
+                token = usr.token,
+                isadmin = usr.isadmin,
+                duration = usr.duration
+            };
             else
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotFound);
