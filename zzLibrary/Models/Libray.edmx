@@ -127,8 +127,8 @@
           </Key>
           <Property Name="isbn" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="author" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="price" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="author" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="price" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="edition" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="copy" Relationship="Self.fk_copy__book" FromRole="book" ToRole="copy" />
         </EntityType>

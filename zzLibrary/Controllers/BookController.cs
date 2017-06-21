@@ -35,8 +35,15 @@ namespace zzLibrary.Controllers
         public Object Get(string isbn)
         {
             var bk = new BookDAO().Get(isbn);
-            if (bk != null) return bk;
-            else return new HttpResponseMessage(HttpStatusCode.NotFound);
+            if (bk == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
+            else return new
+            {
+                title = bk.title,
+                author = bk.author,
+                edition = bk.edition,
+                price = bk.price,
+                isbn = bk.isbn
+            };
         }
 
         /// <summary>
@@ -72,6 +79,9 @@ namespace zzLibrary.Controllers
             var usr = new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
+                if (bookInfo.price == null) bookInfo.price = "";
+                if (bookInfo.edition == null) bookInfo.edition = "";
+                if (bookInfo.author == null) bookInfo.author = "";
                 var bk = new BookDAO().Add(bookInfo);
                 if (bk == null) return new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 else return bk;
