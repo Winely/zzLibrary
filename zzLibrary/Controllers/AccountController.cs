@@ -110,20 +110,51 @@ namespace zzLibrary.Controllers
         public Object Validate(string token)
         {
             var usr = new UserDAO().GetByToken(token);
-            if (usr != null) return new
-            {
-                user = usr.user1,
-                token = usr.token,
-                isadmin = usr.isadmin,
-                duration = usr.duration
-            };
-            else
+            if (usr == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotFound);
                 resp.Content = new StringContent("User unfound");
                 return resp;
             }
+
+            var info = new RecordDAO().GetCredit(usr.user1);
+            return new
+            {
+                user = usr.user1,
+                token = usr.token,
+                isadmin = usr.isadmin,
+                duration = usr.duration,
+                available = info.available,
+                dated = info.dated
+            };
         }
+
+        /// <summary>
+        /// 获取用户借书相关信息，仅本人或管理员可见
+        /// </summary>
+        /// <param name="token">用户的token</param>
+        /// <returns></returns>
+        [HttpGet]
+        [ActionName("info")]
+        public Object Info(string token, string username)
+        {
+            var usrdao = new UserDAO();
+            var opt = usrdao.GetByToken(token);
+            var usr = usrdao.Get(username);
+            
+            if(opt==null || usr==null || (!opt.isadmin && opt != usr))
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                resp.Content = new StringContent("Please validate the token and username.");
+                return resp;
+            }
+
+            var borrowed = new RecordDAO().FindAll(x => x.user == usr.user1 && !x.isclosed);
+            var dated = borrowed.Where(x => x.deadline.CompareTo(DateTime.Now) < 0).Count();
+
+            return new { available = 10 - borrowed.Count(), dated = dated };
+        }
+
 
         /// <summary>
         /// 注册用的各种信息

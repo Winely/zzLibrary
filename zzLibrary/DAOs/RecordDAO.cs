@@ -61,6 +61,13 @@ namespace zzLibrary.DAOs
                    });
         }
 
+        public userCredit GetCredit(string username)
+        {
+            var borrowed = FindAll(x => x.user == username && !x.isclosed);
+            var dated = borrowed.Where(x => x.deadline.CompareTo(DateTime.Now) < 0).Count();
+            return new userCredit { available = 10 - borrowed.Count(), dated = dated };
+        }
+        
         public class recordcopy
         {
             public int id { get; set; }
@@ -85,6 +92,12 @@ namespace zzLibrary.DAOs
             public bool isclosed { get; set; }
             public string @operator { get; set; }
             public string book { get; set; }
+        }
+
+        public class userCredit
+        {
+            public int available { get; set; }
+            public int dated { get; set; }
         }
     }
 }
