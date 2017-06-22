@@ -29,7 +29,7 @@ namespace zzLibrary.Controllers
         /// <param name="token">管理员token</param>
         /// <param name="isbn">书本isbn</param>
         /// <param name="num">副本量</param>
-        /// <returns添加成功则返回200</returns>
+        /// <returns>添加成功则返回200</returns>
         [HttpPut]
         [ActionName("add")]
         public async Task<Object> Add(string token, string isbn, int num)
