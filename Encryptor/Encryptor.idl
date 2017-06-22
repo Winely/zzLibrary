@@ -1,0 +1,35 @@
+// Encryptor.idl : Encryptor的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(Encryptor.tlb)和封送处理代码。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(9E99A2CA-1413-42B4-8459-25DA9A9BACEE),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IEncryptor : IDispatch{
+	[id(1)] HRESULT Add([in] LONG a, [in] LONG b, [out, retval] LONG* result);
+};
+[
+	uuid(25130AE3-304A-4793-96F4-2D5114777843),
+	version(1.0),
+]
+library EncryptorLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(4173AE19-5356-4E2E-9844-A0A7BD15F382)		
+	]
+	coclass Encryptor
+	{
+		[default] interface IEncryptor;
+	};
+};
+

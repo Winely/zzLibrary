@@ -1,0 +1,26 @@
+HKCR
+{
+	Encryptor.Encryptor.1 = s 'Encryptor Class'
+	{
+		CLSID = s '{4173AE19-5356-4E2E-9844-A0A7BD15F382}'
+	}
+	Encryptor.Encryptor = s 'Encryptor Class'
+	{		
+		CurVer = s 'Encryptor.Encryptor.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4173AE19-5356-4E2E-9844-A0A7BD15F382} = s 'Encryptor Class'
+		{
+			ProgID = s 'Encryptor.Encryptor.1'
+			VersionIndependentProgID = s 'Encryptor.Encryptor'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{25130AE3-304A-4793-96F4-2D5114777843}'
+			Version = s '1.0'
+		}
+	}
+}
