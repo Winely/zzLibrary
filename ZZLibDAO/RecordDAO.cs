@@ -6,7 +6,7 @@ using ZZLibModel;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
-namespace zzLibrary.DAOs
+namespace ZZLibDAO
 {
     /// <summary>
     /// 借书记录相关数据库操作

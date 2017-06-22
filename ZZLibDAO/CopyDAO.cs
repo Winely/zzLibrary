@@ -6,14 +6,15 @@ using ZZLibModel;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
-namespace zzLibrary.DAOs
+namespace ZZLibDAO
 {
     public class CopyDAO : BaseDAO<copy>
     {
         public async Task<List<copyMsg>> GetAllCopy()
         {
-            return await db.copy.Select(x => new copyMsg {
-                id=x.id,
+            return await db.copy.Select(x => new copyMsg
+            {
+                id = x.id,
                 book = x.book
             }).ToListAsync();
         }

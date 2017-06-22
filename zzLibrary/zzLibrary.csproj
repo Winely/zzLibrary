@@ -203,11 +203,6 @@
     <Compile Include="Controllers\CopyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RecordController.cs" />
-    <Compile Include="DAOs\BaseDAO.cs" />
-    <Compile Include="DAOs\BookDAO.cs" />
-    <Compile Include="DAOs\CopyDAO.cs" />
-    <Compile Include="DAOs\RecordDAO.cs" />
-    <Compile Include="DAOs\UserDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -269,7 +264,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -290,6 +284,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ZZLibDAO\ZZLibDAO.csproj">
+      <Project>{29b60e55-9e26-48ee-ba03-4c6b485ee2b6}</Project>
+      <Name>ZZLibDAO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZZLib\ZZLibModel.csproj">
       <Project>{c7af05b8-9ca5-4e11-a24c-b3de24416ed4}</Project>
       <Name>ZZLibModel</Name>

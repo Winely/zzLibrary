@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using ZZLibModel;
 
-namespace zzLibrary.DAOs
+namespace ZZLibDAO
 {
     /// <summary>
     /// 基本数据库操作封装
@@ -33,7 +33,7 @@ namespace zzLibrary.DAOs
         {
             db.Dispose();
         }
-        
+
         public ICollection<TObject> GetAll()
         {
             return db.Set<TObject>().ToList();

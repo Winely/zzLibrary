@@ -8,8 +8,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using ZZLibDAO;
 using ZZLibModel;
-using zzLibrary.DAOs;
 
 namespace zzLibrary.Controllers
 {

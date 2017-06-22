@@ -6,7 +6,7 @@ using ZZLibModel;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
-namespace zzLibrary.DAOs
+namespace ZZLibDAO
 {
     /// <summary>
     /// 用户相关的DAO操作
@@ -29,7 +29,8 @@ namespace zzLibrary.DAOs
         /// <returns>全体用户列表</returns>
         public async Task<ICollection<UserMsg>> GetAllUser()
         {
-            return await db.user.Select(u => new UserMsg {
+            return await db.user.Select(u => new UserMsg
+            {
                 user = u.user1,
                 duration = u.duration,
                 token = u.token,

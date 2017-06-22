@@ -7,7 +7,7 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Threading.Tasks;
 
-namespace zzLibrary.DAOs
+namespace ZZLibDAO
 {
     /// <summary>
     /// 书本相关数据库操作
@@ -60,9 +60,10 @@ namespace zzLibrary.DAOs
         /// <returns>书目列表</returns>
         public async Task<ICollection<BookMsg>> GetALLAsync()
         {
-            return await db.book.Select(x => new BookMsg {
+            return await db.book.Select(x => new BookMsg
+            {
                 title = x.title,
-                isbn=x.isbn,
+                isbn = x.isbn,
                 author = x.author,
                 price = x.price,
                 edition = x.edition
