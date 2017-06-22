@@ -39,6 +39,21 @@ namespace zzLibrary.DAOs
                 .ToListAsync();
         }
 
+        public async Task<ICollection<BookMsg>> GetByPage(int startRow, int pageSize)
+        {
+            return await db.book.OrderBy(x => x.title)
+                .Skip(startRow).Take(pageSize)
+                .Select(x => new BookMsg
+                {
+                    title = x.title,
+                    isbn = x.isbn,
+                    author = x.author,
+                    price = x.price,
+                    edition = x.edition
+                })
+                .ToListAsync();
+        }
+
         /// <summary>
         /// 所有馆藏书目
         /// </summary>

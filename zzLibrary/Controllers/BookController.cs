@@ -16,12 +16,23 @@ namespace zzLibrary.Controllers
     public class BookController : ApiController
     {
         /// <summary>
-        /// 获取所有的书本列表
+        /// 按分页获取所有的书本列表
         /// </summary>
+        /// <param name="page">页码</param>
         /// <returns>全部书信息的列表</returns>
-        public async Task<ICollection<BookMsg>> Get()
+        public async Task<SearchResult> Get(int page)
         {
-            return await new BookDAO().GetALLAsync();
+            var bookdao = new BookDAO();
+            var len = await bookdao.CountAsync();
+            int pageSize = 20;
+            var totalPage = (len + pageSize - 1) / pageSize;
+            int startRow = (page - 1) * pageSize;
+            var books = await bookdao.GetByPage(startRow, pageSize);
+            return new SearchResult
+            {
+                total = totalPage,
+                books = books
+            };
         }
 
         /// <summary>
