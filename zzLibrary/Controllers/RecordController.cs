@@ -184,7 +184,7 @@ namespace zzLibrary.Controllers
             record.isclosed = true;
             await recorddao.UpdateAsync(record, record.id);
 
-            return new
+            return new Dated
             {
                 dated = record.deadline.Subtract(DateTime.Now).TotalDays
             };
@@ -273,7 +273,7 @@ namespace zzLibrary.Controllers
             /// <summary>
             /// 距离还书日的时间（为负则过期）
             /// </summary>
-            public int dated { get; set; }
+            public double dated { get; set; }
         }
     }
 }

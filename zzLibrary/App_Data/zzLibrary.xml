@@ -581,7 +581,7 @@
             </summary>
             <param name="title">书本标题</param>
             <param name="page">结果页码</param>
-            <returns></returns>
+            <returns>搜索结果和搜索页数</returns>
         </member>
         <member name="M:zzLibrary.Controllers.BookController.info(System.String,System.String)">
             <summary>
@@ -589,7 +589,22 @@
             </summary>
             <param name="token">管理员token</param>
             <param name="isbn">isbn号码</param>
-            <returns></returns>
+            <returns>查询结果json</returns>
+        </member>
+        <member name="T:zzLibrary.Controllers.SearchResult">
+            <summary>
+            搜索结果
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.SearchResult.total">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.SearchResult.books">
+            <summary>
+            结果列表
+            </summary>
         </member>
         <member name="M:zzLibrary.Controllers.CopyController.Get(System.String)">
             <summary>
@@ -597,15 +612,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:zzLibrary.Controllers.CopyController.Add(System.String,System.String,System.Int32)">
-            <summary>
-            添加副本
-            </summary>
-            <param name="token">管理员token</param>
-            <param name="isbn">书本isbn</param>
-            <param name="num">副本量</param>
-            <returns></returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:zzLibrary.Controllers.CopyController.Add(System.String,System.String,System.Int32)" -->
         <member name="M:zzLibrary.Controllers.CopyController.Delete(System.String,System.Int32)">
             <summary>
             删除复本
@@ -649,7 +656,7 @@
             还书，仅管理员
             </summary>
             <param name="token">管理员token</param>
-            <returns>返回过期时间（为负则没有过期）</returns>
+            <returns>返回过期时间（为负则过期）</returns>
         </member>
         <member name="M:zzLibrary.Controllers.RecordController.Renew(System.String,zzLibrary.Controllers.RecordController.BorrowMsg)">
             <summary>
@@ -671,6 +678,31 @@
         <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.Copy">
             <summary>
             复本id
+            </summary>
+        </member>
+        <member name="T:zzLibrary.Controllers.RecordController.RecordByPage">
+            <summary>
+            分页查看借书记录
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.RecordController.RecordByPage.total">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.RecordController.RecordByPage.records">
+            <summary>
+            该页记录列表
+            </summary>
+        </member>
+        <member name="T:zzLibrary.Controllers.RecordController.Dated">
+            <summary>
+            过期情况
+            </summary>
+        </member>
+        <member name="P:zzLibrary.Controllers.RecordController.Dated.dated">
+            <summary>
+            距离还书日的时间（为负则过期）
             </summary>
         </member>
         <member name="T:zzLibrary.DAOs.BaseDAO`1">
