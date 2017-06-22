@@ -31,6 +31,9 @@
     <ClCompile Include="Encryptor_i.c">
       <Filter>生成的文件</Filter>
     </ClCompile>
+    <ClCompile Include="MD5Encryptor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="Encryptor.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MD5Encryptor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Encryptor.rc">
@@ -68,6 +74,9 @@
       <Filter>源文件</Filter>
     </None>
     <None Include="Encryptor1.rgs">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="MD5Encryptor.rgs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>

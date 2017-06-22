@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ZZLibDAO;
 using ZZLibModel;
+using EncryptorLib;
 
 namespace zzLibrary.Controllers
 {
@@ -49,7 +50,8 @@ namespace zzLibrary.Controllers
         {
             var userDAO = new UserDAO();
             user usr = await userDAO.GetAsync(value.Username);
-            if (usr!=null && usr.password == value.Password)
+            
+            if (usr!=null && usr.password == new MD5EncryptorClass().encrypt(value.Password))
             {
                 string token = value.Username + value.Password;
                 byte[] bytes = Encoding.UTF8.GetBytes(token);
@@ -78,7 +80,7 @@ namespace zzLibrary.Controllers
             user newUser = new user
             {
                 user1 = info.Username,
-                password = info.Password,
+                password = new MD5EncryptorClass().encrypt(info.Password),
                 isadmin = (info.Admincode == "rootAdmin"),
                 duration = 30
             };

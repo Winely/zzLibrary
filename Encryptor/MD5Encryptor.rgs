@@ -1,0 +1,26 @@
+HKCR
+{
+	Encryptor.MD5Encryptor.1 = s 'MD5Encryptor Class'
+	{
+		CLSID = s '{85A83707-663A-4B71-BAB8-74CFA4E2FD4D}'
+	}
+	Encryptor.MD5Encryptor = s 'MD5Encryptor Class'
+	{		
+		CurVer = s 'Encryptor.MD5Encryptor.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {85A83707-663A-4B71-BAB8-74CFA4E2FD4D} = s 'MD5Encryptor Class'
+		{
+			ProgID = s 'Encryptor.MD5Encryptor.1'
+			VersionIndependentProgID = s 'Encryptor.MD5Encryptor'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{25130AE3-304A-4793-96F4-2D5114777843}'
+			Version = s '1.0'
+		}
+	}
+}

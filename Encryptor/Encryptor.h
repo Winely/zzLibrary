@@ -50,9 +50,7 @@ END_COM_MAP()
 	}
 
 public:
-
-
-
+	long add(long a, long b);
 	STDMETHOD(Add)(LONG a, LONG b, LONG* result);
 };
 

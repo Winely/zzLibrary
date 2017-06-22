@@ -18,6 +18,16 @@ interface IEncryptor : IDispatch{
 	[id(1)] HRESULT Add([in] LONG a, [in] LONG b, [out, retval] LONG* result);
 };
 [
+	object,
+	uuid(3A9BAA7A-17B2-4698-AA06-8824F7F6ABD5),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IMD5Encryptor : IDispatch{
+	[id(1)] HRESULT encrypt([in] BSTR data, [out, retval] BSTR* result);
+};
+[
 	uuid(25130AE3-304A-4793-96F4-2D5114777843),
 	version(1.0),
 ]
@@ -30,6 +40,13 @@ library EncryptorLib
 	coclass Encryptor
 	{
 		[default] interface IEncryptor;
+	};
+	[
+		uuid(85A83707-663A-4B71-BAB8-74CFA4E2FD4D)		
+	]
+	coclass MD5Encryptor
+	{
+		[default] interface IMD5Encryptor;
 	};
 };
 

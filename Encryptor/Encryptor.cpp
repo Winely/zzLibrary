@@ -75,12 +75,14 @@ STDAPI DllInstall(BOOL bInstall, _In_opt_  LPCWSTR pszCmdLine)
 
 
 // CEncryptor
-
+long CEncryptor::add(long a, long b) {
+	return a + b;
+}
 
 
 STDMETHODIMP CEncryptor::Add(LONG a, LONG b, LONG* result)
 {
 	// TODO: 在此添加实现代码
-	*result = a + b;
+	*result = add(a, b);
 	return S_OK;
 }
