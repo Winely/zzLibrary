@@ -678,5 +678,11 @@
             只有本体信息的book
             </summary>
         </member>
+        <member name="M:zzLibrary.DAOs.UserMsg.#ctor(ZZLibModel.user)">
+            <summary>
+            脱去密码的user类
+            </summary>
+            <param name="u"></param>
+        </member>
     </members>
 </doc>

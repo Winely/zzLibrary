@@ -29,18 +29,16 @@ namespace zzLibrary.Controllers
         /// </summary>
         /// <param name="isbn">书的ISBN</param>
         /// <returns>某本书的信息</returns>
-        public Object Get(string isbn)
+        public async Task<BookMsg> Get(string isbn)
         {
-            var bk = new BookDAO().Get(isbn);
-            if (bk == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
-            else return new
+            var bk = await new BookDAO().GetAsync(isbn);
+            if (bk == null)
             {
-                title = bk.title,
-                author = bk.author,
-                edition = bk.edition,
-                price = bk.price,
-                isbn = bk.isbn
-            };
+                var resp = new HttpResponseMessage(HttpStatusCode.NotFound);
+                resp.Content = new StringContent("ISBN not found.");
+                throw new HttpResponseException(resp);
+            }
+            else return new BookMsg(bk);
         }
 
         /// <summary>
@@ -51,16 +49,21 @@ namespace zzLibrary.Controllers
         /// <returns>更新后的书本信息</returns>
         [HttpPost]
         [ActionName("update")]
-        public Object UpdateBook(string token, [FromBody]book bookInfo)
+        public async Task<BookMsg> UpdateBook(string token, [FromBody]book bookInfo)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
-                var bk = new BookDAO().Update(bookInfo, bookInfo.isbn);
-                if (bk == null) return new HttpResponseMessage(HttpStatusCode.NotImplemented);
-                else return bk;
+                var bk = await new BookDAO().UpdateAsync(bookInfo, bookInfo.isbn);
+                if (bk == null)
+                {
+                    var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
+                    resp.Content = new StringContent("Update failed.");
+                    throw new HttpResponseException(resp);
+                }
+                else return new BookMsg(bk);
             }
-            else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            else throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
 
         /// <summary>
@@ -71,26 +74,19 @@ namespace zzLibrary.Controllers
         /// <returns>新增成功的书本信息</returns>
         [HttpPut]
         [ActionName("add")]
-        public Object AddNewBook(string token, [FromBody]book bookInfo)
+        public async Task<BookMsg> AddNewBook(string token, [FromBody]book bookInfo)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
                 if (bookInfo.price == null) bookInfo.price = "";
                 if (bookInfo.edition == null) bookInfo.edition = "";
                 if (bookInfo.author == null) bookInfo.author = "";
                 var bk = new BookDAO().Add(bookInfo);
-                if (bk == null) return new HttpResponseMessage(HttpStatusCode.NotImplemented);
-                else return new
-                {
-                    title = bk.title,
-                    author = bk.author,
-                    edition = bk.edition,
-                    price = bk.price,
-                    isbn = bk.isbn
-                };
+                if (bk == null) throw new HttpResponseException(HttpStatusCode.NotImplemented);
+                else return new BookMsg(bk);
             }
-            else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            else throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
         
         /// <summary>
@@ -101,9 +97,9 @@ namespace zzLibrary.Controllers
         /// <returns>状态信息</returns>
         [HttpDelete]
         [ActionName("Delete")]
-        public Object Delete(string token, string isbn)
+        public async Task<Object> Delete(string token, string isbn)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
                 var bookdao = new BookDAO();
@@ -147,7 +143,7 @@ namespace zzLibrary.Controllers
         [ActionName("info")]
         public async Task<Object> info(string token, string isbn)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr == null || !usr.isadmin)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);

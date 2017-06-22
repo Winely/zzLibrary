@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using ZZLibModel;
 using zzLibrary.DAOs;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace zzLibrary.Controllers
 {
@@ -15,14 +17,10 @@ namespace zzLibrary.Controllers
         /// 获取某本书的copy列表
         /// </summary>
         /// <returns></returns>
-        public Object Get(string isbn)
+        public async Task<ICollection<copyMsg>> Get(string isbn)
         {
-            var db = new CopyDAO().db;
-            var copies = db.copy
-                .Select(x => new { book = x.book, id = x.id })
-                .Where(cp => cp.book == isbn)
-                .ToList();
-            return copies;
+            var copies = await new CopyDAO().FindAllAsync(x=>x.book==isbn);
+            return copies.Select(x => new copyMsg(x)).ToList();
         }
 
         /// <summary>
@@ -34,20 +32,20 @@ namespace zzLibrary.Controllers
         /// <returns></returns>
         [HttpPut]
         [ActionName("add")]
-        public Object Add(string token, string isbn, int num)
+        public async Task<Object> Add(string token, string isbn, int num)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
                 foreach (var i in Enumerable.Range(1, num))
                 {
-                    var bi = new CopyDAO().Add(new copy { book = isbn });
+                    var bi = await new CopyDAO().AddAsync(new copy { book = isbn });
                     if (bi != null) continue;
-                    else return new HttpResponseMessage(HttpStatusCode.NotImplemented);
+                    else throw new HttpResponseException(HttpStatusCode.NotImplemented);
                 }
                 return Ok();
             }
-            else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            else throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
 
         /// <summary>
@@ -55,14 +53,15 @@ namespace zzLibrary.Controllers
         /// </summary>
         /// <param name="token">管理员token</param>
         /// <param name="id">复本id</param>
-        public void Delete(string token, int id)
+        public async void Delete(string token, int id)
         {
-            var usr = new UserDAO().GetByToken(token);
-            if(usr!=null && usr.isadmin)
+            var usr = await new UserDAO().GetByToken(token);
+            if (usr != null && usr.isadmin)
             {
                 var copydao = new CopyDAO();
-                copydao.Delete(copydao.Get(id));
+                await copydao.DeleteAsync(await copydao.GetAsync(id));
             }
+            else throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using zzLibrary.DAOs;
 using ZZLibModel;
+using System.Threading.Tasks;
 
 namespace zzLibrary.Controllers
 {
@@ -19,35 +20,22 @@ namespace zzLibrary.Controllers
         /// <returns>total为总页数；records为记录列表</returns>
         [HttpGet]
         [ActionName("Get")]
-        public Object GetAll(string token, int page)
+        public async Task<Object> GetAll(string token, int page)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr==null || !usr.isadmin)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 resp.Content = new StringContent("Please log in as admin.");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
             var recorddao = new RecordDAO();
-            var len = recorddao.Count();
+            var len = await recorddao.CountAsync();
             var pageSize = 40; //每页长度
             var totalPage = (len + pageSize - 1) / pageSize;
             int startRow = (page - 1) * pageSize;
-            var records = recorddao.GetAll()
-                .OrderBy(x => x.borrow_time)
-                .Skip(startRow).Take(pageSize)
-                .ToList()
-                .ConvertAll(x => new
-                {
-                    id = x.id,
-                    user = x.user,
-                    copy = x.copy,
-                    borrow_time = x.borrow_time,
-                    deadline = x.deadline,
-                    renew = x.renew,
-                    @operator = x.@operator
-                });
+            var records = await recorddao.GetAllRecord(startRow, pageSize);
             return new
             {
                 total = totalPage,
@@ -63,19 +51,19 @@ namespace zzLibrary.Controllers
         /// <returns>相关记录列表</returns>
         [HttpGet]
         [ActionName("user")]
-        public Object UserRecord(string token, string user)
+        public async Task<List<recordbook>> UserRecord(string token, string user)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr != null)
             {
                 if (usr.isadmin || usr.user1 == user)
                 {
-                    return new RecordDAO().GetByUser(user);
+                    return await new RecordDAO().GetByUser(user);
                 }
                 else
-                    return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                    throw new HttpResponseException(HttpStatusCode.Unauthorized);
             }
-            else return new HttpResponseMessage(HttpStatusCode.NotImplemented);
+            else throw new HttpResponseException(HttpStatusCode.NotImplemented);
         }
 
         /// <summary>
@@ -86,14 +74,14 @@ namespace zzLibrary.Controllers
         /// <returns>相关记录列表</returns>
         [HttpGet]
         [ActionName("copy")]
-        public Object CopyRecord(string token, int copyId)
+        public async Task<List<recordbook>> CopyRecord(string token, int copyId)
         {
-            var usr = new UserDAO().GetByToken(token);
+            var usr = await new UserDAO().GetByToken(token);
             if (usr != null && usr.isadmin)
             {
-                return new RecordDAO().GetByID(copyId);
+                return await new RecordDAO().GetByID(copyId);
             }
-            else return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            else throw new HttpResponseException(HttpStatusCode.Unauthorized);
         }
 
         /// <summary>
@@ -103,42 +91,42 @@ namespace zzLibrary.Controllers
         /// <returns>操作信息</returns>
         [HttpPost]
         [ActionName("borrow")]
-        public Object Borrow(string token, [FromBody]BorrowMsg body)
+        public async Task<RecordMsg> Borrow(string token, [FromBody]BorrowMsg body)
         {
             // validate authorization
             var usrdao = new UserDAO();
             var recorddao = new RecordDAO();
-            var opt = usrdao.GetByToken(token);
+            var opt = await usrdao.GetByToken(token);
             if (opt == null || !opt.isadmin)
-                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+                throw new HttpResponseException(HttpStatusCode.Unauthorized);
 
             // validate user
-            var usr = usrdao.Get(body.Username);
+            var usr = await usrdao.GetAsync(body.Username);
             if (usr == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 resp.Content = new StringContent("User not existed.");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
-            var credit = recorddao.GetCredit(body.Username);
+            var credit = await recorddao.GetCredit(body.Username);
             if (credit.available <= 0 || credit.dated > 0)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 resp.Content = new StringContent("余额不足或有过期未还");
-                return resp;
+                throw new HttpResponseException(resp);
             }
-            
+
             // validate copy
-            var copy = new CopyDAO().Get(body.Copy);
+            var copy = await new CopyDAO().GetAsync(body.Copy);
             if (copy.status != 0)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 resp.Content = new StringContent("The copy is borrowed or missed.");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
-            var rec = recorddao.Add(new record
+            var rec = await recorddao.AddAsync(new record
             {
                 copy = body.Copy,
                 user = usr.user1,
@@ -152,21 +140,13 @@ namespace zzLibrary.Controllers
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 resp.Content = new StringContent("Copy not existed");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
             copy.status = 1;
-            new CopyDAO().Update(copy, copy.id);
+            await new CopyDAO().UpdateAsync(copy, copy.id);
 
-            return new
-            {
-                id = rec.id,
-                copy = rec.copy,
-                user = rec.user,
-                borrow_time = rec.borrow_time,
-                deadline = rec.deadline,
-                @operator = rec.@operator
-            };
+            return new RecordMsg(rec);
 
         }
 
@@ -177,32 +157,32 @@ namespace zzLibrary.Controllers
         /// <returns>返回过期时间（为负则没有过期）</returns>
         [HttpPost]
         [ActionName("return")]
-        public Object Return(string token, [FromBody]BorrowMsg msg)
+        public async Task<Object> Return(string token, [FromBody]BorrowMsg msg)
         {
             var usrdao = new UserDAO();
             var recorddao = new RecordDAO();
-            var opt = usrdao.GetByToken(token);
+            var opt = await usrdao.GetByToken(token);
             if (opt == null || !opt.isadmin)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 resp.Content = new StringContent("Not admin.");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
-            var record = recorddao.Find(x => x.user == msg.Username && x.copy == msg.Copy && !x.isclosed);
+            var record = await recorddao.FindAsync(x => x.user == msg.Username && x.copy == msg.Copy && !x.isclosed);
             if (record == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 resp.Content = new StringContent("Record not found");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
             var copydao = new CopyDAO();
-            var copy = copydao.Get(msg.Copy);
+            var copy = await copydao.GetAsync(msg.Copy);
             copy.status = 0;
-            copydao.Update(copy, copy.id);
+            await copydao.UpdateAsync(copy, copy.id);
             record.isclosed = true;
-            recorddao.Update(record, record.id);
+            await recorddao.UpdateAsync(record, record.id);
 
             return new
             {
@@ -218,46 +198,39 @@ namespace zzLibrary.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("renew")]
-        public Object Renew(string token, [FromBody]BorrowMsg msg)
+        public async Task<RecordMsg> Renew(string token, [FromBody]BorrowMsg msg)
         {
             var usrdao = new UserDAO();
             var recorddao = new RecordDAO();
-            var opt = usrdao.GetByToken(token);
-            var usr = usrdao.Get(msg.Username);
+            var opt = await usrdao.GetByToken(token);
+            var usr = await usrdao.GetAsync(msg.Username);
             if(opt==null || usr==null || (opt!=usr && !opt.isadmin))
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
                 resp.Content = new StringContent("Unauthorized.");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
-            var record = recorddao.Find(x => x.user == usr.user1 && x.copy == msg.Copy && !x.isclosed);
+            var record = await recorddao.FindAsync(x => x.user == usr.user1 && x.copy == msg.Copy && !x.isclosed);
             if (record == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 resp.Content = new StringContent("Record not found.");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
             if (record.renew < 1)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
                 resp.Content = new StringContent("Cannot renew any more");
-                return resp;
+                throw new HttpResponseException(resp);
             }
 
             record.renew--;
             record.deadline = record.deadline.AddDays(15);
-            recorddao.Update(record, record.id);
+            await recorddao.UpdateAsync(record, record.id);
 
-            return new
-            {
-                id = record.id,
-                borrow_time = record.borrow_time,
-                deadline = record.deadline,
-                copy = record.copy,
-                user = record.user
-            };
+            return new RecordMsg(record);
         }
 
         /// <summary>

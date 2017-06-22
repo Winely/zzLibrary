@@ -60,7 +60,23 @@ namespace zzLibrary.DAOs
 
         public async Task<TObject> GetAsync(Object id)
         {
-            return await db.Set<TObject>().FindAsync(id);
+            try
+            {
+                return await db.Set<TObject>().FindAsync(id);
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var validationErrors in e.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                validationError.PropertyName,
+                                                validationError.ErrorMessage);
+                    }
+                }
+                return null;
+            }
         }
 
         public TObject Find(Expression<Func<TObject, bool>> match)
@@ -99,9 +115,16 @@ namespace zzLibrary.DAOs
 
         public async Task<TObject> AddAsync(TObject t)
         {
-            db.Set<TObject>().Add(t);
-            await db.SaveChangesAsync();
-            return t;
+            try
+            {
+                db.Set<TObject>().Add(t);
+                await db.SaveChangesAsync();
+                return t;
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException)
+            {
+                return null;
+            }
         }
 
         public TObject Update(TObject updated, Object key)
