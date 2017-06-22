@@ -17,6 +17,9 @@ namespace zzLibrary.DAOs
         
     }
 
+    /// <summary>
+    /// 复本的本体信息
+    /// </summary>
     public class copyMsg
     {
         public copyMsg(copy c)
@@ -24,7 +27,14 @@ namespace zzLibrary.DAOs
             id = c.id;
             book = c.book;
         }
+        /// <summary>
+        /// 复本id
+        /// </summary>
         public int id { get; set; }
+
+        /// <summary>
+        /// 复本所属书isbn
+        /// </summary>
         public string book { get; set; }
     }
 }

@@ -12,8 +12,15 @@ using ZZLibModel;
 
 namespace zzLibrary.DAOs
 {
+    /// <summary>
+    /// 基本数据库操作封装
+    /// </summary>
+    /// <typeparam name="TObject"></typeparam>
     public class BaseDAO<TObject> where TObject : class
     {
+        /// <summary>
+        /// 实体类
+        /// </summary>
         public zzLibEntities db { get; set; }
         //public zzLibraryEntities db { get; set; }
 

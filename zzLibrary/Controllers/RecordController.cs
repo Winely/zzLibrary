@@ -20,7 +20,7 @@ namespace zzLibrary.Controllers
         /// <returns>total为总页数；records为记录列表</returns>
         [HttpGet]
         [ActionName("Get")]
-        public async Task<Object> GetAll(string token, int page)
+        public async Task<RecordByPage> GetAll(string token, int page)
         {
             var usr = await new UserDAO().GetByToken(token);
             if (usr==null || !usr.isadmin)
@@ -36,7 +36,7 @@ namespace zzLibrary.Controllers
             var totalPage = (len + pageSize - 1) / pageSize;
             int startRow = (page - 1) * pageSize;
             var records = await recorddao.GetAllRecord(startRow, pageSize);
-            return new
+            return new RecordByPage
             {
                 total = totalPage,
                 records = records
@@ -154,10 +154,10 @@ namespace zzLibrary.Controllers
         /// 还书，仅管理员
         /// </summary>
         /// <param name="token">管理员token</param>
-        /// <returns>返回过期时间（为负则没有过期）</returns>
+        /// <returns>返回过期时间（为负则过期）</returns>
         [HttpPost]
         [ActionName("return")]
-        public async Task<Object> Return(string token, [FromBody]BorrowMsg msg)
+        public async Task<Dated> Return(string token, [FromBody]BorrowMsg msg)
         {
             var usrdao = new UserDAO();
             var recorddao = new RecordDAO();
@@ -247,6 +247,33 @@ namespace zzLibrary.Controllers
             /// 复本id
             /// </summary>
             public int Copy { get; set; }
+        }
+
+        /// <summary>
+        /// 分页查看借书记录
+        /// </summary>
+        public class RecordByPage
+        {
+            /// <summary>
+            /// 总页数
+            /// </summary>
+            public int total { get; set; }
+
+            /// <summary>
+            /// 该页记录列表
+            /// </summary>
+            public List<RecordMsg> records { get; set; }
+        }
+
+        /// <summary>
+        /// 过期情况
+        /// </summary>
+        public class Dated
+        {
+            /// <summary>
+            /// 距离还书日的时间（为负则过期）
+            /// </summary>
+            public int dated { get; set; }
         }
     }
 }

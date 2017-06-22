@@ -98,7 +98,7 @@ namespace zzLibrary.Controllers
         /// <returns>有效则返回用户信息</returns>
         [HttpGet]
         [ActionName("validate")]
-        public async Task<Object> Validate(string token)
+        public async Task<UserMsgPlus> Validate(string token)
         {
             var usr = await new UserDAO().GetByToken(token);
             if (usr == null)
@@ -109,15 +109,7 @@ namespace zzLibrary.Controllers
             }
 
             var info = await new RecordDAO().GetCredit(usr.user1);
-            return new
-            {
-                user = usr.user1,
-                token = usr.token,
-                isadmin = usr.isadmin,
-                duration = usr.duration,
-                available = info.available,
-                dated = info.dated
-            };
+            return new UserMsgPlus(usr, info);
         }
 
         /// <summary>

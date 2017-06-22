@@ -114,10 +114,10 @@ namespace zzLibrary.Controllers
         /// </summary>
         /// <param name="title">书本标题</param>
         /// <param name="page">结果页码</param>
-        /// <returns></returns>
+        /// <returns>搜索结果和搜索页数</returns>
         [HttpGet]
         [ActionName("search")]
-        public async Task<Object> Search(string title, int page)
+        public async Task<SearchResult> Search(string title, int page)
         {
             var bookdao = new BookDAO();
             var allResult = await bookdao.FindAllAsync(x => x.title.Contains(title));
@@ -126,7 +126,7 @@ namespace zzLibrary.Controllers
             var totalPage = (len + pageSize - 1) / pageSize;
             int startRow = (page - 1) * pageSize;
             var books = await bookdao.SearchAsync(title, page);
-            return new
+            return new SearchResult
             {
                 total = totalPage,
                 books = books
@@ -138,7 +138,7 @@ namespace zzLibrary.Controllers
         /// </summary>
         /// <param name="token">管理员token</param>
         /// <param name="isbn">isbn号码</param>
-        /// <returns></returns>
+        /// <returns>查询结果json</returns>
         [HttpGet]
         [ActionName("info")]
         public async Task<Object> info(string token, string isbn)
@@ -161,5 +161,21 @@ namespace zzLibrary.Controllers
                 return json;
             }
         }
+    }
+
+    /// <summary>
+    /// 搜索结果
+    /// </summary>
+    public class SearchResult
+    {
+        /// <summary>
+        /// 总页数
+        /// </summary>
+        public int total { get; set; }
+
+        /// <summary>
+        /// 结果列表
+        /// </summary>
+        public ICollection<BookMsg> books { get; set; }
     }
 }

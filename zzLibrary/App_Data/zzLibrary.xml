@@ -673,16 +673,240 @@
             复本id
             </summary>
         </member>
+        <member name="T:zzLibrary.DAOs.BaseDAO`1">
+            <summary>
+            基本数据库操作封装
+            </summary>
+            <typeparam name="TObject"></typeparam>
+        </member>
+        <member name="P:zzLibrary.DAOs.BaseDAO`1.db">
+            <summary>
+            实体类
+            </summary>
+        </member>
+        <member name="T:zzLibrary.DAOs.BookDAO">
+            <summary>
+            书本相关数据库操作
+            </summary>
+        </member>
+        <member name="M:zzLibrary.DAOs.BookDAO.SearchAsync(System.String,System.Int32)">
+            <summary>
+            模糊搜索书目
+            </summary>
+            <param name="title">书名</param>
+            <param name="page">页码</param>
+            <returns>书目列表</returns>
+        </member>
+        <member name="M:zzLibrary.DAOs.BookDAO.GetALLAsync">
+            <summary>
+            所有馆藏书目
+            </summary>
+            <returns>书目列表</returns>
+        </member>
         <member name="T:zzLibrary.DAOs.BookMsg">
             <summary>
             只有本体信息的book
             </summary>
+        </member>
+        <member name="M:zzLibrary.DAOs.BookMsg.#ctor(ZZLibModel.book)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="b"></param>
+        </member>
+        <member name="P:zzLibrary.DAOs.BookMsg.isbn">
+            <summary>
+            书的isbn
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.BookMsg.title">
+            <summary>
+            书名
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.BookMsg.author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.BookMsg.price">
+            <summary>
+            价格
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.BookMsg.edition">
+            <summary>
+            出版社/版本信息
+            </summary>
+        </member>
+        <member name="T:zzLibrary.DAOs.copyMsg">
+            <summary>
+            复本的本体信息
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.copyMsg.id">
+            <summary>
+            复本id
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.copyMsg.book">
+            <summary>
+            复本所属书isbn
+            </summary>
+        </member>
+        <member name="T:zzLibrary.DAOs.RecordDAO">
+            <summary>
+            借书记录相关数据库操作
+            </summary>
+        </member>
+        <member name="M:zzLibrary.DAOs.RecordDAO.GetByUser(System.String)">
+            <summary>
+            按用户获取
+            </summary>
+            <param name="username">用户名</param>
+            <returns>用户记录</returns>
+        </member>
+        <member name="M:zzLibrary.DAOs.RecordDAO.GetByID(System.Int32)">
+            <summary>
+            按复本获取记录
+            </summary>
+            <param name="copyId">复本id</param>
+            <returns>复本记录</returns>
+        </member>
+        <member name="M:zzLibrary.DAOs.RecordDAO.GetCredit(System.String)">
+            <summary>
+            获取用户信用相关分数
+            </summary>
+            <param name="username">用户名</param>
+            <returns>。</returns>
+        </member>
+        <member name="M:zzLibrary.DAOs.RecordDAO.GetAllRecord(System.Int32,System.Int32)">
+            <summary>
+            获取所有记录
+            </summary>
+            <param name="startRow">开始行</param>
+            <param name="pageSize">一页的长度</param>
+            <returns>记录列表</returns>
+        </member>
+        <member name="T:zzLibrary.DAOs.RecordMsg">
+            <summary>
+            一条记录的本体信息
+            </summary>
+        </member>
+        <member name="M:zzLibrary.DAOs.RecordMsg.#ctor(ZZLibModel.record)">
+            <summary>
+            从record构造
+            </summary>
+            <param name="r">源record</param>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.id">
+            <summary>
+            record id
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.user">
+            <summary>
+            借书人
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.copy">
+            <summary>
+            被借复本
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.borrow_time">
+            <summary>
+            借书时间
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.deadline">
+            <summary>
+            应还时间
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.renew">
+            <summary>
+            剩余可续次数
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.isclosed">
+            <summary>
+            已还书
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.RecordMsg.operator">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.recordcopy.isbn">
+            <summary>
+            书本的isbn号码
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.recordbook.book">
+            <summary>
+            书本名称
+            </summary>
+        </member>
+        <member name="T:zzLibrary.DAOs.UserCredit">
+            <summary>
+            用户当前借书余额等
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.UserCredit.available">
+            <summary>
+            剩余可借书本数量
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.UserCredit.dated">
+            <summary>
+            已过期书本数
+            </summary>
+        </member>
+        <member name="T:zzLibrary.DAOs.UserDAO">
+            <summary>
+            用户相关的DAO操作
+            </summary>
+        </member>
+        <member name="M:zzLibrary.DAOs.UserDAO.GetByToken(System.String)">
+            <summary>
+            获取token代表的用户信息
+            </summary>
+            <param name="token">用户token</param>
+            <returns>一个用户信息（除密码）</returns>
+        </member>
+        <member name="M:zzLibrary.DAOs.UserDAO.GetAllUser">
+            <summary>
+            获取所有用户
+            </summary>
+            <returns>全体用户列表</returns>
         </member>
         <member name="M:zzLibrary.DAOs.UserMsg.#ctor(ZZLibModel.user)">
             <summary>
             脱去密码的user类
             </summary>
             <param name="u"></param>
+        </member>
+        <member name="P:zzLibrary.DAOs.UserMsg.user1">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.UserMsg.duration">
+            <summary>
+            可借书时长
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.UserMsg.isadmin">
+            <summary>
+            是否管理员
+            </summary>
+        </member>
+        <member name="P:zzLibrary.DAOs.UserMsg.token">
+            <summary>
+            用户token
+            </summary>
         </member>
     </members>
 </doc>

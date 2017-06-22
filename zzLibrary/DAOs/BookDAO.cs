@@ -9,8 +9,17 @@ using System.Threading.Tasks;
 
 namespace zzLibrary.DAOs
 {
+    /// <summary>
+    /// 书本相关数据库操作
+    /// </summary>
     public class BookDAO : BaseDAO<book>
     {
+        /// <summary>
+        /// 模糊搜索书目
+        /// </summary>
+        /// <param name="title">书名</param>
+        /// <param name="page">页码</param>
+        /// <returns>书目列表</returns>
         public async Task<ICollection<BookMsg>> SearchAsync(string title, int page)
         {
             var pageSize = 20;
@@ -23,6 +32,10 @@ namespace zzLibrary.DAOs
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// 所有馆藏书目
+        /// </summary>
+        /// <returns>书目列表</returns>
         public async Task<ICollection<BookMsg>> GetALLAsync()
         {
             return await db.book.Select(x => new BookMsg(x)).ToListAsync();
@@ -34,6 +47,10 @@ namespace zzLibrary.DAOs
     /// </summary>
     public class BookMsg
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="b"></param>
         public BookMsg(book b)
         {
             isbn = b.isbn;
@@ -42,10 +59,30 @@ namespace zzLibrary.DAOs
             price = b.price;
             edition = b.edition;
         }
+
+        /// <summary>
+        /// 书的isbn
+        /// </summary>
         public string isbn { get; set; }
+
+        /// <summary>
+        /// 书名
+        /// </summary>
         public string title { get; set; }
+
+        /// <summary>
+        /// 作者
+        /// </summary>
         public string author { get; set; }
+
+        /// <summary>
+        /// 价格
+        /// </summary>
         public string price { get; set; }
+
+        /// <summary>
+        /// 出版社/版本信息
+        /// </summary>
         public string edition { get; set; }
     }
 }

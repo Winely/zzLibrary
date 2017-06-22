@@ -8,8 +8,16 @@ using System.Data.Entity;
 
 namespace zzLibrary.DAOs
 {
+    /// <summary>
+    /// 借书记录相关数据库操作
+    /// </summary>
     public class RecordDAO : BaseDAO<record>
     {
+        /// <summary>
+        /// 按用户获取
+        /// </summary>
+        /// <param name="username">用户名</param>
+        /// <returns>用户记录</returns>
         public async Task<List<recordbook>> GetByUser(string username)
         {
             return await db.record.Where(x => x.user == username)
@@ -18,6 +26,11 @@ namespace zzLibrary.DAOs
                    .ToListAsync();
         }
 
+        /// <summary>
+        /// 按复本获取记录
+        /// </summary>
+        /// <param name="copyId">复本id</param>
+        /// <returns>复本记录</returns>
         public async Task<List<recordbook>> GetByID(int copyId)
         {
             var copy = await new CopyDAO().GetAsync(copyId);
@@ -30,6 +43,11 @@ namespace zzLibrary.DAOs
                    .ToListAsync();
         }
 
+        /// <summary>
+        /// 获取用户信用相关分数
+        /// </summary>
+        /// <param name="username">用户名</param>
+        /// <returns>。</returns>
         public async Task<UserCredit> GetCredit(string username)
         {
             var borrowed = await FindAllAsync(x => x.user == username && !x.isclosed);
@@ -37,6 +55,12 @@ namespace zzLibrary.DAOs
             return new UserCredit { available = 10 - borrowed.Count(), dated = dated };
         }
 
+        /// <summary>
+        /// 获取所有记录
+        /// </summary>
+        /// <param name="startRow">开始行</param>
+        /// <param name="pageSize">一页的长度</param>
+        /// <returns>记录列表</returns>
         public async Task<List<RecordMsg>> GetAllRecord(int startRow, int pageSize)
         {
             return await db.record
@@ -47,8 +71,15 @@ namespace zzLibrary.DAOs
         }
     }
 
+    /// <summary>
+    /// 一条记录的本体信息
+    /// </summary>
     public class RecordMsg
     {
+        /// <summary>
+        /// 从record构造
+        /// </summary>
+        /// <param name="r">源record</param>
         public RecordMsg(record r)
         {
             id = r.id;
@@ -59,26 +90,53 @@ namespace zzLibrary.DAOs
             renew = r.renew;
             @operator = r.@operator;
         }
+
+        /// <summary>
+        /// record id
+        /// </summary>
         public int id { get; set; }
+
+        /// <summary>
+        /// 借书人
+        /// </summary>
         public string user { get; set; }
+
+        /// <summary>
+        /// 被借复本
+        /// </summary>
         public int copy { get; set; }
+
+        /// <summary>
+        /// 借书时间
+        /// </summary>
         public System.DateTime borrow_time { get; set; }
+
+        /// <summary>
+        /// 应还时间
+        /// </summary>
         public System.DateTime deadline { get; set; }
+
+        /// <summary>
+        /// 剩余可续次数
+        /// </summary>
         public sbyte renew { get; set; }
+
+        /// <summary>
+        /// 已还书
+        /// </summary>
         public bool isclosed { get; set; }
+
+        /// <summary>
+        /// 操作人
+        /// </summary>
         public string @operator { get; set; }
     }
 
-    public class recordcopy
+    public class recordcopy: record
     {
-        public int id { get; set; }
-        public string user { get; set; }
-        public int copy { get; set; }
-        public System.DateTime borrow_time { get; set; }
-        public System.DateTime deadline { get; set; }
-        public sbyte renew { get; set; }
-        public bool isclosed { get; set; }
-        public string @operator { get; set; }
+        /// <summary>
+        /// 书本的isbn号码
+        /// </summary>
         public string isbn { get; set; }
 
         public recordcopy(record r, copy c)
@@ -95,30 +153,12 @@ namespace zzLibrary.DAOs
         }
     }
 
-    public class recordbook
+    public class recordbook:record
     {
-        public int id { get; set; }
-        public string user { get; set; }
-        public int copy { get; set; }
-        public System.DateTime borrow_time { get; set; }
-        public System.DateTime deadline { get; set; }
-        public sbyte renew { get; set; }
-        public bool isclosed { get; set; }
-        public string @operator { get; set; }
+        /// <summary>
+        /// 书本名称
+        /// </summary>
         public string book { get; set; }
-
-        public recordbook(recordcopy r, book b)
-        {
-            id = r.id;
-            user = r.user;
-            copy = r.copy;
-            borrow_time = r.borrow_time;
-            deadline = r.deadline;
-            renew = r.renew;
-            isclosed = r.isclosed;
-            @operator = r.@operator;
-            book = b.title;
-        }
 
         public recordbook(record r, book b)
         {
@@ -134,9 +174,19 @@ namespace zzLibrary.DAOs
         }
     }
 
+    /// <summary>
+    /// 用户当前借书余额等
+    /// </summary>
     public class UserCredit
     {
+        /// <summary>
+        /// 剩余可借书本数量
+        /// </summary>
         public int available { get; set; }
+
+        /// <summary>
+        /// 已过期书本数
+        /// </summary>
         public int dated { get; set; }
     }
 }
