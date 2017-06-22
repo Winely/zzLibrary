@@ -12,9 +12,11 @@ namespace zzLibrary.DAOs
     {
         public async Task<List<copyMsg>> GetAllCopy()
         {
-            return await db.copy.Select(x => new copyMsg(x)).ToListAsync();
+            return await db.copy.Select(x => new copyMsg {
+                id=x.id,
+                book = x.book
+            }).ToListAsync();
         }
-        
     }
 
     /// <summary>
@@ -22,6 +24,7 @@ namespace zzLibrary.DAOs
     /// </summary>
     public class copyMsg
     {
+        public copyMsg() { }
         public copyMsg(copy c)
         {
             id = c.id;

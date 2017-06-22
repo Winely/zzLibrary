@@ -20,7 +20,7 @@ namespace zzLibrary.Controllers
         public async Task<ICollection<copyMsg>> Get(string isbn)
         {
             var copies = await new CopyDAO().FindAllAsync(x=>x.book==isbn);
-            return copies.Select(x => new copyMsg(x)).ToList();
+            return copies.Select(x => new copyMsg { id=x.id, book=x.book }).ToList();
         }
 
         /// <summary>

@@ -28,7 +28,14 @@ namespace zzLibrary.DAOs
                 .Where(x => x.title.Contains(title))
                 .OrderBy(x => x.title)
                 .Skip(startRow).Take(pageSize)
-                .Select(x => new BookMsg(x))
+                .Select(x => new BookMsg
+                {
+                    title = x.title,
+                    isbn = x.isbn,
+                    author = x.author,
+                    price = x.price,
+                    edition = x.edition
+                })
                 .ToListAsync();
         }
 
@@ -38,7 +45,13 @@ namespace zzLibrary.DAOs
         /// <returns>书目列表</returns>
         public async Task<ICollection<BookMsg>> GetALLAsync()
         {
-            return await db.book.Select(x => new BookMsg(x)).ToListAsync();
+            return await db.book.Select(x => new BookMsg {
+                title = x.title,
+                isbn=x.isbn,
+                author = x.author,
+                price = x.price,
+                edition = x.edition
+            }).ToListAsync();
         }
     }
 
@@ -59,6 +72,7 @@ namespace zzLibrary.DAOs
             price = b.price;
             edition = b.edition;
         }
+        public BookMsg() { }
 
         /// <summary>
         /// 书的isbn

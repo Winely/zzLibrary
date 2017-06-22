@@ -103,7 +103,7 @@ namespace zzLibrary.Controllers
             if (usr != null && usr.isadmin)
             {
                 var bookdao = new BookDAO();
-                bookdao.Delete(bookdao.Get(isbn));
+                await bookdao.DeleteAsync(bookdao.Get(isbn));
                 return Ok();
             }
             return new HttpResponseMessage(HttpStatusCode.Unauthorized);

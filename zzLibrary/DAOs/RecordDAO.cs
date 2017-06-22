@@ -18,12 +18,35 @@ namespace zzLibrary.DAOs
         /// </summary>
         /// <param name="username">用户名</param>
         /// <returns>用户记录</returns>
+        //public async Task<List<recordbook>> GetByUser(string username)
         public async Task<List<recordbook>> GetByUser(string username)
         {
-            var records = db.record.Where(x => x.user == username)
-                   .Join(db.copy, r => r.copy, c => c.id, (r, c) => new recordcopy(r, c))
-                   .Join(db.book, r => r.isbn, b => b.isbn, (r, b) => new recordbook(r, b));
-            return await records.ToListAsync();
+            return await db.record.Where(x => x.user == username)
+                   .Join(db.copy, r => r.copy, c => c.id, (r, c) => new recordcopy
+                   {
+                       id = r.id,
+                       user = r.user,
+                       copy = r.copy,
+                       borrow_time = r.borrow_time,
+                       deadline = r.deadline,
+                       renew = r.renew,
+                       isclosed = r.isclosed,
+                       @operator = r.@operator,
+                       isbn = c.book
+                   })
+                   .Join(db.book, r => r.isbn, b => b.isbn, (r, b) => new recordbook
+                   {
+                       id = r.id,
+                       user = r.user,
+                       copy = r.copy,
+                       borrow_time = r.borrow_time,
+                       deadline = r.deadline,
+                       renew = r.renew,
+                       isclosed = r.isclosed,
+                       @operator = r.@operator,
+                       book = b.title
+                   })
+                   .ToListAsync();
         }
 
         /// <summary>
@@ -39,7 +62,18 @@ namespace zzLibrary.DAOs
             var book = await new BookDAO().GetAsync(copy.book);
 
             return await db.record.Where(x => x.copy == copyId)
-                   .Select(r => new recordbook(r, book))
+                   .Select(r => new recordbook
+                   {
+                       id = r.id,
+                       user = r.user,
+                       copy = r.copy,
+                       borrow_time = r.borrow_time,
+                       deadline = r.deadline,
+                       renew = r.renew,
+                       isclosed = r.isclosed,
+                       @operator = r.@operator,
+                       book = book.title
+                   })
                    .ToListAsync();
         }
 
@@ -66,7 +100,16 @@ namespace zzLibrary.DAOs
             return await db.record
                 .OrderBy(x => x.borrow_time)
                 .Skip(startRow).Take(pageSize)
-                .Select(x => new RecordMsg(x))
+                .Select(r => new RecordMsg
+                {
+                    id = r.id,
+                    user = r.user,
+                    copy = r.copy,
+                    borrow_time = r.borrow_time,
+                    deadline = r.deadline,
+                    renew = r.renew,
+                    @operator = r.@operator
+                })
                 .ToListAsync();
         }
     }
@@ -133,13 +176,14 @@ namespace zzLibrary.DAOs
         public string @operator { get; set; }
     }
 
-    public class recordcopy: RecordMsg
+    public class recordcopy : RecordMsg
     {
         /// <summary>
         /// 书本的isbn号码
         /// </summary>
         public string isbn { get; set; }
 
+        public recordcopy() { }
         public recordcopy(record r, copy c)
         {
             id = r.id;
@@ -154,13 +198,13 @@ namespace zzLibrary.DAOs
         }
     }
 
-    public class recordbook:RecordMsg
+    public class recordbook : RecordMsg
     {
         /// <summary>
         /// 书本名称
         /// </summary>
         public string book { get; set; }
-
+        public recordbook() { }
         public recordbook(recordcopy r, book b)
         {
             id = r.id;

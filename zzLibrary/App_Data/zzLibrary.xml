@@ -928,7 +928,7 @@
             </summary>
             <param name="u"></param>
         </member>
-        <member name="P:zzLibrary.DAOs.UserMsg.user1">
+        <member name="P:zzLibrary.DAOs.UserMsg.user">
             <summary>
             用户名
             </summary>
