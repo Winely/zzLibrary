@@ -42,7 +42,7 @@ namespace zzLibrary.DAOs
         /// <param name="u"></param>
         public UserMsg(user u)
         {
-            user1 = u.user1;
+            user = u.user1;
             duration = u.duration;
             isadmin = u.isadmin;
             token = u.token;
@@ -52,7 +52,7 @@ namespace zzLibrary.DAOs
         /// <summary>
         /// 用户名
         /// </summary>
-        public string user1 { get; set; }
+        public string user { get; set; }
 
         /// <summary>
         /// 可借书时长
@@ -75,7 +75,7 @@ namespace zzLibrary.DAOs
         public UserMsgPlus() { }
         public UserMsgPlus(user usr, UserCredit info)
         {
-            user1 = usr.user1;
+            user = usr.user1;
             token = usr.token;
             isadmin = usr.isadmin;
             duration = usr.duration;

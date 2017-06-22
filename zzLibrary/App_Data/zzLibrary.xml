@@ -612,7 +612,15 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:zzLibrary.Controllers.CopyController.Add(System.String,System.String,System.Int32)" -->
+        <member name="M:zzLibrary.Controllers.CopyController.Add(System.String,System.String,System.Int32)">
+            <summary>
+            添加副本
+            </summary>
+            <param name="token">管理员token</param>
+            <param name="isbn">书本isbn</param>
+            <param name="num">副本量</param>
+            <returns>添加成功则返回200</returns>
+        </member>
         <member name="M:zzLibrary.Controllers.CopyController.Delete(System.String,System.Int32)">
             <summary>
             删除复本

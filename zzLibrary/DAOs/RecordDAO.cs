@@ -20,10 +20,10 @@ namespace zzLibrary.DAOs
         /// <returns>用户记录</returns>
         public async Task<List<recordbook>> GetByUser(string username)
         {
-            return await db.record.Where(x => x.user == username)
+            var records = db.record.Where(x => x.user == username)
                    .Join(db.copy, r => r.copy, c => c.id, (r, c) => new recordcopy(r, c))
-                   .Join(db.book, r => r.isbn, b => b.isbn, (r, b) => new recordbook(r, b))
-                   .ToListAsync();
+                   .Join(db.book, r => r.isbn, b => b.isbn, (r, b) => new recordbook(r, b));
+            return await records.ToListAsync();
         }
 
         /// <summary>
@@ -90,6 +90,7 @@ namespace zzLibrary.DAOs
             renew = r.renew;
             @operator = r.@operator;
         }
+        public RecordMsg() { }
 
         /// <summary>
         /// record id
@@ -132,7 +133,7 @@ namespace zzLibrary.DAOs
         public string @operator { get; set; }
     }
 
-    public class recordcopy: record
+    public class recordcopy: RecordMsg
     {
         /// <summary>
         /// 书本的isbn号码
@@ -153,12 +154,26 @@ namespace zzLibrary.DAOs
         }
     }
 
-    public class recordbook:record
+    public class recordbook:RecordMsg
     {
         /// <summary>
         /// 书本名称
         /// </summary>
         public string book { get; set; }
+
+        public recordbook(recordcopy r, book b)
+        {
+            id = r.id;
+            user = r.user;
+            copy = r.copy;
+            borrow_time = r.borrow_time;
+            deadline = r.deadline;
+            renew = r.renew;
+            isclosed = r.isclosed;
+            @operator = r.@operator;
+            book = b.title;
+        }
+
 
         public recordbook(record r, book b)
         {
