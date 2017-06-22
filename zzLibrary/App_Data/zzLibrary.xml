@@ -551,7 +551,7 @@
             <param name="isbn">书的ISBN</param>
             <returns>某本书的信息</returns>
         </member>
-        <member name="M:zzLibrary.Controllers.BookController.UpdateBook(System.String,zzLibrary.Models.book)">
+        <member name="M:zzLibrary.Controllers.BookController.UpdateBook(System.String,ZZLibModel.book)">
             <summary>
             更新书本信息
             </summary>
@@ -559,7 +559,7 @@
             <param name="bookInfo">更新后的书本信息</param>
             <returns>更新后的书本信息</returns>
         </member>
-        <member name="M:zzLibrary.Controllers.BookController.AddNewBook(System.String,zzLibrary.Models.book)">
+        <member name="M:zzLibrary.Controllers.BookController.AddNewBook(System.String,ZZLibModel.book)">
             <summary>
             添加书本
             </summary>
@@ -655,12 +655,12 @@
             借还书提交信息
             </summary>
         </member>
-        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.username">
+        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.Username">
             <summary>
             借书人用户名
             </summary>
         </member>
-        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.copy">
+        <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.Copy">
             <summary>
             复本id
             </summary>

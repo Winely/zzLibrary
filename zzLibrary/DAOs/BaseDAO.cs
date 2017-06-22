@@ -8,18 +8,18 @@ using System.Data.Entity.Validation;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using zzLibrary.Models;
-
+using ZZLibModel;
 
 namespace zzLibrary.DAOs
 {
     public class BaseDAO<TObject> where TObject : class
     {
-        public zzLibraryEntities db { get; set; }
+        public zzLibEntities db { get; set; }
+        //public zzLibraryEntities db { get; set; }
 
         public BaseDAO()
         {
-            db = new zzLibraryEntities();
+            db = new zzLibEntities();
         }
 
         ~BaseDAO()

@@ -10,7 +10,7 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
-using zzLibrary.Models;
+using ZZLibModel;
 using zzLibrary.DAOs;
 
 namespace zzLibrary.Controllers

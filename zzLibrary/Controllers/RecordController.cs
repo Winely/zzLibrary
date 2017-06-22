@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using zzLibrary.DAOs;
-using zzLibrary.Models;
+using ZZLibModel;
 
 namespace zzLibrary.Controllers
 {
@@ -113,7 +113,7 @@ namespace zzLibrary.Controllers
                 return new HttpResponseMessage(HttpStatusCode.Unauthorized);
 
             // validate user
-            var usr = usrdao.Get(body.username);
+            var usr = usrdao.Get(body.Username);
             if (usr == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
@@ -121,7 +121,7 @@ namespace zzLibrary.Controllers
                 return resp;
             }
 
-            var credit = recorddao.GetCredit(body.username);
+            var credit = recorddao.GetCredit(body.Username);
             if (credit.available <= 0 || credit.dated > 0)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
@@ -130,7 +130,7 @@ namespace zzLibrary.Controllers
             }
             
             // validate copy
-            var copy = new CopyDAO().Get(body.copy);
+            var copy = new CopyDAO().Get(body.Copy);
             if (copy.status != 0)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
@@ -140,7 +140,7 @@ namespace zzLibrary.Controllers
 
             var rec = recorddao.Add(new record
             {
-                copy = body.copy,
+                copy = body.Copy,
                 user = usr.user1,
                 borrow_time = DateTime.Now,
                 deadline = DateTime.Now.AddDays(usr.duration),
@@ -189,7 +189,7 @@ namespace zzLibrary.Controllers
                 return resp;
             }
 
-            var record = recorddao.Find(x => x.user == msg.username && x.copy == msg.copy && !x.isclosed);
+            var record = recorddao.Find(x => x.user == msg.Username && x.copy == msg.Copy && !x.isclosed);
             if (record == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
@@ -198,7 +198,7 @@ namespace zzLibrary.Controllers
             }
 
             var copydao = new CopyDAO();
-            var copy = copydao.Get(msg.copy);
+            var copy = copydao.Get(msg.Copy);
             copy.status = 0;
             copydao.Update(copy, copy.id);
             record.isclosed = true;
@@ -223,7 +223,7 @@ namespace zzLibrary.Controllers
             var usrdao = new UserDAO();
             var recorddao = new RecordDAO();
             var opt = usrdao.GetByToken(token);
-            var usr = usrdao.Get(msg.username);
+            var usr = usrdao.Get(msg.Username);
             if(opt==null || usr==null || (opt!=usr && !opt.isadmin))
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.Unauthorized);
@@ -231,7 +231,7 @@ namespace zzLibrary.Controllers
                 return resp;
             }
 
-            var record = recorddao.Find(x => x.user == usr.user1 && x.copy == msg.copy && !x.isclosed);
+            var record = recorddao.Find(x => x.user == usr.user1 && x.copy == msg.Copy && !x.isclosed);
             if (record == null)
             {
                 var resp = new HttpResponseMessage(HttpStatusCode.NotImplemented);
@@ -268,12 +268,12 @@ namespace zzLibrary.Controllers
             /// <summary>
             /// 借书人用户名
             /// </summary>
-            public string username { get; set; }
+            public string Username { get; set; }
 
             /// <summary>
             /// 复本id
             /// </summary>
-            public int copy { get; set; }
+            public int Copy { get; set; }
         }
     }
 }

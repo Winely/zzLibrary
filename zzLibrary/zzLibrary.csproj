@@ -211,33 +211,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\book.cs">
-      <DependentUpon>Libray.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\copy.cs">
-      <DependentUpon>Libray.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Libray.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Libray.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Libray.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Libray.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Libray.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Libray.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\record.cs">
-      <DependentUpon>Libray.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\user.cs">
-      <DependentUpon>Libray.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -247,16 +220,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\Libray.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Libray.edmx</DependentUpon>
-      <LastGenOutput>Libray.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Libray.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Libray.edmx</DependentUpon>
-      <LastGenOutput>Libray.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -280,13 +243,6 @@
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <EntityDeploy Include="Models\Libray.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Libray.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Libray.edmx.diagram">
-      <DependentUpon>Libray.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -313,6 +269,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -331,6 +288,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZZLib\ZZLibModel.csproj">
+      <Project>{c7af05b8-9ca5-4e11-a24c-b3de24416ed4}</Project>
+      <Name>ZZLibModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
