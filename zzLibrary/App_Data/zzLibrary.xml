@@ -583,6 +583,14 @@
             <param name="page">结果页码</param>
             <returns></returns>
         </member>
+        <member name="M:zzLibrary.Controllers.BookController.info(System.String,System.String)">
+            <summary>
+            通过isbn获得某本书的信息（外网API转发）
+            </summary>
+            <param name="token">管理员token</param>
+            <param name="isbn">isbn号码</param>
+            <returns></returns>
+        </member>
         <member name="M:zzLibrary.Controllers.CopyController.Get(System.String)">
             <summary>
             获取某本书的copy列表
@@ -663,6 +671,11 @@
         <member name="P:zzLibrary.Controllers.RecordController.BorrowMsg.Copy">
             <summary>
             复本id
+            </summary>
+        </member>
+        <member name="T:zzLibrary.DAOs.BookMsg">
+            <summary>
+            只有本体信息的book
             </summary>
         </member>
     </members>
