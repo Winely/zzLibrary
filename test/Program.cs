@@ -12,8 +12,12 @@ namespace test
     {
         static void Main(string[] args)
         {
-            var a = new MD5EncryptorClass().encrypt("123445");
-            Console.WriteLine(a);
+            var e = new MD5EncryptorClass();
+            while (true)
+            {
+                var a = Console.ReadLine();
+                Console.WriteLine(e.encrypt(a));
+            }
             Console.ReadKey();
         }
     }

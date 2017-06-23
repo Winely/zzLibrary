@@ -10,9 +10,8 @@ namespace zzLibrary.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
-            return View();
+            var result = new FilePathResult("~/Views/Home/index.html", "text/html");
+            return result;
         }
     }
 }

@@ -248,6 +248,34 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Static\css\app.09264ccf4dabbadda0a14885c88f4f2f.css" />
+    <Content Include="Static\css\color-dark.css" />
+    <Content Include="Static\css\datasource.css" />
+    <Content Include="Static\css\main.css" />
+    <Content Include="Static\css\theme-green\color-green.css" />
+    <Content Include="Static\css\theme-green\index.css" />
+    <Content Include="Static\font\iconfont.css" />
+    <Content Include="Static\font\iconfont.js" />
+    <Content Include="Static\font\iconfont.svg" />
+    <Content Include="Static\img\img.2aab7b4.jpg" />
+    <Content Include="Static\img\img.jpg" />
+    <Content Include="Static\js\0.06f3c6cc07321ff616e3.js" />
+    <Content Include="Static\js\1.c2dc7cc05a49aac11c86.js" />
+    <Content Include="Static\js\10.1573cf1545e942d10d75.js" />
+    <Content Include="Static\js\11.3c80dec93e1db0fa013e.js" />
+    <Content Include="Static\js\12.fbd0b5105e514d78a613.js" />
+    <Content Include="Static\js\2.d177339fcd8833052636.js" />
+    <Content Include="Static\js\3.9859aaca43df776e2f58.js" />
+    <Content Include="Static\js\4.495109ade209711feccd.js" />
+    <Content Include="Static\js\5.776b1807bb04d8e107be.js" />
+    <Content Include="Static\js\6.6cc5494ff6e416f939f3.js" />
+    <Content Include="Static\js\7.b8d17d982ab66628a459.js" />
+    <Content Include="Static\js\8.69156a367f450ac4326b.js" />
+    <Content Include="Static\js\9.b830dd9b88c9d3310844.js" />
+    <Content Include="Static\js\app.6cbe651cdeb531ef75af.js" />
+    <Content Include="Static\js\manifest.3961af6aa5bd3c36a84c.js" />
+    <Content Include="Static\js\vendor.5f273f16bce3bf32b84c.js" />
+    <Content Include="Static\js\vendor.dll.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -259,9 +287,18 @@
     <Content Include="Content\Site.css" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Index.html" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Static\css\theme-green\fonts\element-icons.ttf" />
+    <Content Include="Static\css\theme-green\fonts\element-icons.woff" />
+    <Content Include="Static\data.json" />
+    <Content Include="Static\datasource.json" />
+    <Content Include="Static\fonts\element-icons.b02bdc1.ttf" />
+    <Content Include="Static\font\iconfont.eot" />
+    <Content Include="Static\font\iconfont.ttf" />
+    <Content Include="Static\font\iconfont.woff" />
+    <Content Include="Static\vuetable.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
