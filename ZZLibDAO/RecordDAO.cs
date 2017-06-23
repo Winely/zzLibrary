@@ -108,7 +108,8 @@ namespace ZZLibDAO
                     borrow_time = r.borrow_time,
                     deadline = r.deadline,
                     renew = r.renew,
-                    @operator = r.@operator
+                    @operator = r.@operator,
+                    isclosed = r.isclosed
                 })
                 .ToListAsync();
         }
