@@ -150,7 +150,7 @@ namespace zzLibrary.Controllers
 
         }
 
-        [DllImport(@"../../../Release/Penalty.dll", EntryPoint = "penalty", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.StdCall)]
+        [DllImport(@"Penalty.dll", EntryPoint = "penalty", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.StdCall)]
         extern static double penalty(double time);
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace zzLibrary.Controllers
             await copydao.UpdateAsync(copy, copy.id);
             record.isclosed = true;
             await recorddao.UpdateAsync(record, record.id);
-            var outdated = record.deadline.Subtract(DateTime.Now).TotalDays;
+            var outdated = -1*record.deadline.Subtract(DateTime.Now).TotalDays;
             return new Dated
             {
                 dated = outdated,

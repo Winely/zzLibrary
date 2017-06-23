@@ -714,5 +714,10 @@
             距离还书日的时间（为负则过期）
             </summary>
         </member>
+        <member name="P:zzLibrary.Controllers.RecordController.Dated.penalty">
+            <summary>
+            应交罚款
+            </summary>
+        </member>
     </members>
 </doc>
