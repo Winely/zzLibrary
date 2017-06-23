@@ -149,6 +149,8 @@ namespace zzLibrary.Controllers
 
         }
 
+        
+
         /// <summary>
         /// 还书，仅管理员
         /// </summary>
@@ -182,10 +184,11 @@ namespace zzLibrary.Controllers
             await copydao.UpdateAsync(copy, copy.id);
             record.isclosed = true;
             await recorddao.UpdateAsync(record, record.id);
-
+            var outdated = record.deadline.Subtract(DateTime.Now).TotalDays;
             return new Dated
             {
-                dated = record.deadline.Subtract(DateTime.Now).TotalDays
+                dated = outdated,
+                penalty = []
             };
 
         }
@@ -273,6 +276,11 @@ namespace zzLibrary.Controllers
             /// 距离还书日的时间（为负则过期）
             /// </summary>
             public double dated { get; set; }
+
+            /// <summary>
+            /// 应交罚款
+            /// </summary>
+            public double penalty { get; set; }
         }
     }
 }

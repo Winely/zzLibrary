@@ -323,6 +323,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Penalty\Penalty.vcxproj">
+      <Project>{90ca67e0-fb94-44af-a55a-9797587a48b9}</Project>
+      <Name>Penalty</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZZLibDAO\ZZLibDAO.csproj">
       <Project>{29b60e55-9e26-48ee-ba03-4c6b485ee2b6}</Project>
       <Name>ZZLibDAO</Name>
