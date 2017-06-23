@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using ZZLibDAO;
 using ZZLibModel;
+using System.Runtime.InteropServices;
 
 namespace zzLibrary.Controllers
 {
@@ -149,7 +150,8 @@ namespace zzLibrary.Controllers
 
         }
 
-        
+        [DllImport(@"../../../Release/Penalty.dll", EntryPoint = "penalty", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = false, CallingConvention = CallingConvention.StdCall)]
+        extern static double penalty(double time);
 
         /// <summary>
         /// 还书，仅管理员
@@ -188,7 +190,7 @@ namespace zzLibrary.Controllers
             return new Dated
             {
                 dated = outdated,
-                penalty = []
+                penalty = penalty(outdated)
             };
 
         }
