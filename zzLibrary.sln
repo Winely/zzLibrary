@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zzLibrary", "zzLibrary\zzLibrary.csproj", "{3668916A-FC43-46E7-B9B0-FA6D15F821E4}"
 EndProject
@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Penalty", "Penalty\Penalty.vcxproj", "{90CA67E0-FB94-44AF-A55A-9797587A48B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,16 @@ Global
 		{EB7605E8-0190-49F0-B826-F4C239701364}.Release|Any CPU.ActiveCfg = Release|Win32
 		{EB7605E8-0190-49F0-B826-F4C239701364}.Release|x64.ActiveCfg = Release|x64
 		{EB7605E8-0190-49F0-B826-F4C239701364}.Release|x86.ActiveCfg = Release|Win32
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Debug|x64.ActiveCfg = Debug|x64
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Debug|x64.Build.0 = Debug|x64
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Debug|x86.ActiveCfg = Debug|Win32
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Debug|x86.Build.0 = Debug|Win32
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Release|Any CPU.ActiveCfg = Release|Win32
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Release|x64.ActiveCfg = Release|x64
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Release|x64.Build.0 = Release|x64
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Release|x86.ActiveCfg = Release|Win32
+		{90CA67E0-FB94-44AF-A55A-9797587A48B9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
